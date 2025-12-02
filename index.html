@@ -1,46 +1,96 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Windows XP — Addy's Desktop</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Addy — Retro OS Portfolio</title>
+  <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-
-<div class="taskbar">
-  <div class="start-button">Start</div>
-  <div class="taskbar-time">11:03 AM</div>
-</div>
-
-<div class="desktop">
-  <div class="icon">
-    <img src="https://icons.iconarchive.com/icons/tatice/operating-systems/64/Windows-XP-icon.png" />
-    <span>My Website</span>
-  </div>
-
-  <div class="icon">
-    <img src="https://icons.iconarchive.com/icons/tpdkdesign.net/windows-8-metro/64/folder-icon.png" />
-    <span>Projects</span>
-  </div>
-
-  <div class="icon">
-    <img src="https://icons.iconarchive.com/icons/dtafalonso/win-8-metro/64/Computer-icon.png" />
-    <span>About Me</span>
-  </div>
-
-  <div class="window">
-    <div class="title-bar">
-      <span>Welcome.txt</span>
-      <button class="close">X</button>
+  <div id="desktop">
+    <!-- Top bar -->
+    <div id="topbar">
+      <div class="brand">AddyOS</div>
+      <div class="clock" id="clock">--:--</div>
     </div>
-    <div class="window-content">
-      <h2>Welcome to Addy's Retro XP Site!</h2>
-      <p>This is a Windows XP themed website hosted on GitHub Pages.</p>
-      <p>Click icons on the desktop to explore!</p>
-    </div>
-  </div>
-</div>
 
-<script src="script.js"></script>
+    <!-- Icons area -->
+    <div id="icons">
+      <div class="icon" data-window="win-about">
+        <img src="https://img.icons8.com/fluency/48/000000/info.png" alt="">
+        <div>About</div>
+      </div>
+
+      <div class="icon" data-window="win-projects">
+        <img src="https://img.icons8.com/fluency/48/000000/folder-invoices.png" alt="">
+        <div>Projects</div>
+      </div>
+
+      <div class="icon" data-window="win-contact">
+        <img src="https://img.icons8.com/fluency/48/000000/contacts.png" alt="">
+        <div>Contact</div>
+      </div>
+    </div>
+
+    <!-- Windows -->
+    <div class="window" id="win-about" style="display:none;">
+      <div class="titlebar">
+        <span>About — Addy</span>
+        <div class="controls">
+          <button class="min">_</button>
+          <button class="close">✕</button>
+        </div>
+      </div>
+      <div class="win-body">
+        <h2>About</h2>
+        <p>I'm Addy — an MSc Physics student. I love QCD, EIC, neutron stars and retro UIs.</p>
+        <p>Short CV: MSc Physics • Research on detectors • Notes & projects.</p>
+      </div>
+    </div>
+
+    <div class="window" id="win-projects" style="display:none;">
+      <div class="titlebar">
+        <span>Projects</span>
+        <div class="controls">
+          <button class="min">_</button>
+          <button class="close">✕</button>
+        </div>
+      </div>
+      <div class="win-body">
+        <h2>Projects</h2>
+        <ul>
+          <li><strong>EIC Detector Notes</strong> — simulation + reconstruction notes.</li>
+          <li><strong>QGP Notes</strong> — summary & references.</li>
+          <li><strong>Portfolio</strong> — this retro site + demos.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="window" id="win-contact" style="display:none;">
+      <div class="titlebar">
+        <span>Contact</span>
+        <div class="controls">
+          <button class="min">_</button>
+          <button class="close">✕</button>
+        </div>
+      </div>
+      <div class="win-body">
+        <h2>Contact</h2>
+        <p>Email: <a href="mailto:your-email@example.com">your-email@example.com</a></p>
+        <p>GitHub: <a href="https://github.com/yourusername" target="_blank">github.com/yourusername</a></p>
+      </div>
+    </div>
+
+    <!-- Bottom dock -->
+    <div id="dock">
+      <div class="dock-item" data-window="win-about">About</div>
+      <div class="dock-item" data-window="win-projects">Projects</div>
+      <div class="dock-item" data-window="win-contact">Contact</div>
+    </div>
+
+    <footer id="footer">© 2025 Addy — Retro OS style • Hosted on GitHub Pages</footer>
+  </div>
+
+  <script src="assets/script.js"></script>
 </body>
 </html>
