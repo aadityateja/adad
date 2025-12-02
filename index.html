@@ -1,125 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Addy — Physics Geek</title>
-  <style>
-    /* Simple site: light-blue background + Times New Roman font */
-    html,body {
-      height: 100%;
-      margin: 0;
-      font-family: "Times New Roman", Times, serif;
-      background: #cfeffd;    /* soft light blue */
-      color: #052a3a;         /* dark teal for contrast */
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    /* Container */
-    .wrap {
-      max-width: 900px;
-      margin: 32px auto;
-      padding: 24px;
-    }
-
-    /* Navbar */
-    nav {
-      display: flex;
-      gap: 18px;
-      justify-content: center;
-      margin-bottom: 26px;
-    }
-    nav a {
-      text-decoration: none;
-      color: #052a3a;
-      border-bottom: 1px solid transparent;
-      padding-bottom: 2px;
-      font-weight: 500;
-    }
-    nav a:hover {
-      border-bottom-color: #052a3a;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    h1 { margin: 6px 0; font-size: 2.4rem; }
-    .tag { color: #0b4b5a; opacity: 0.9; }
-
-    /* Card blocks */
-    .card {
-      background: rgba(255,255,255,0.65);
-      border-radius: 8px;
-      padding: 18px;
-      margin-bottom: 16px;
-      box-shadow: 0 2px 6px rgba(5,42,58,0.06);
-    }
-
-    h2 { margin-top: 6px; color: #053a4a; font-size: 1.4rem; }
-    p { margin: 10px 0; line-height: 1.5; }
-
-    /* Footer */
-    footer {
-      margin-top: 28px;
-      text-align: center;
-      color: #084e60;
-      font-size: 0.9rem;
-      opacity: 0.95;
-    }
-
-    /* Responsive */
-    @media (max-width:600px){
-      .wrap { padding: 14px; margin: 18px; }
-      h1 { font-size: 1.8rem; }
-      nav { gap: 12px; }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Windows XP — Addy's Desktop</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="wrap">
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="projects.html">Projects</a>
-      <a href="contact.html">Contact</a>
-    </nav>
 
-    <header>
-      <h1>Addy — Physics Geek</h1>
-      <div class="tag">QCD • EIC • Neutron Stars • Curiosity</div>
-    </header>
+<div class="taskbar">
+  <div class="start-button">Start</div>
+  <div class="taskbar-time">11:03 AM</div>
+</div>
 
-    <section class="card">
-      <h2>Welcome</h2>
-      <p>
-        Hello — this is a simple, clean site with a soft light-blue background and
-        <strong>Times New Roman</strong> everywhere. Use this page to introduce yourself,
-        link to projects, or add quick notes about your research.
-      </p>
-    </section>
-
-    <section class="card">
-      <h2>Quick Links</h2>
-      <p>
-        • <a href="projects.html">Projects</a><br>
-        • <a href="research.html">Research</a><br>
-        • <a href="contact.html">Contact</a>
-      </p>
-    </section>
-
-    <section class="card">
-      <h2>Mini CV</h2>
-      <p>
-        MSc Physics — focus on particle & nuclear physics. Working on Electron–Ion Collider topics,
-        detector physics and QCD notes. Add your education / experience here.
-      </p>
-    </section>
-
-    <footer>
-      © 2025 Addy • Hosted on GitHub Pages
-    </footer>
+<div class="desktop">
+  <div class="icon">
+    <img src="https://icons.iconarchive.com/icons/tatice/operating-systems/64/Windows-XP-icon.png" />
+    <span>My Website</span>
   </div>
+
+  <div class="icon">
+    <img src="https://icons.iconarchive.com/icons/tpdkdesign.net/windows-8-metro/64/folder-icon.png" />
+    <span>Projects</span>
+  </div>
+
+  <div class="icon">
+    <img src="https://icons.iconarchive.com/icons/dtafalonso/win-8-metro/64/Computer-icon.png" />
+    <span>About Me</span>
+  </div>
+
+  <div class="window">
+    <div class="title-bar">
+      <span>Welcome.txt</span>
+      <button class="close">X</button>
+    </div>
+    <div class="window-content">
+      <h2>Welcome to Addy's Retro XP Site!</h2>
+      <p>This is a Windows XP themed website hosted on GitHub Pages.</p>
+      <p>Click icons on the desktop to explore!</p>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
