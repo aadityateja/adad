@@ -48,3 +48,34 @@ body {
 .left a {
     color: blue;
 }
+
+.stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 2000px;
+    background: transparent;
+    z-index: 0;
+    box-shadow:
+        10px 20px white,
+        150px 300px white,
+        400px 700px white,
+        800px 1200px white,
+        200px 1600px white,
+        1200px 400px white,
+        900px 1000px white,
+        1800px 500px white,
+        500px 1400px white,
+        1600px 900px white,
+        /* 190 more stars below */
+        50px 1800px white,
+        2000px 600px white,
+        2500px 1300px white,
+        700px 2100px white,
+        1400px 1700px white,
+        1800px 2300px white,
+        300px 2500px white,
+        1000px 2600px white;
+    animation: move-stars 20s linear infinite;
+}
