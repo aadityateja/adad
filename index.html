@@ -1,96 +1,30 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Addy — Retro OS Portfolio</title>
-  <link rel="stylesheet" href="assets/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name</title>
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <div id="desktop">
-    <!-- Top bar -->
-    <div id="topbar">
-      <div class="brand">AddyOS</div>
-      <div class="clock" id="clock">--:--</div>
+
+<div class="container">
+    <div class="left">
+        <h1>Your Name</h1>
+        <p>Short intro about you.  
+           MSc Physics • Particle Physics • QCD • EIC  
+           Researcher • Writer • Science communicator
+        </p>
+
+        <p><a href="mailto:yourmail@gmail.com">yourmail@gmail.com</a></p>
+        <p><a href="https://github.com/yourusername" target="_blank">GitHub</a></p>
+        <p><a href="https://linkedin.com/in/yourname" target="_blank">LinkedIn</a></p>
     </div>
 
-    <!-- Icons area -->
-    <div id="icons">
-      <div class="icon" data-window="win-about">
-        <img src="https://img.icons8.com/fluency/48/000000/info.png" alt="">
-        <div>About</div>
-      </div>
-
-      <div class="icon" data-window="win-projects">
-        <img src="https://img.icons8.com/fluency/48/000000/folder-invoices.png" alt="">
-        <div>Projects</div>
-      </div>
-
-      <div class="icon" data-window="win-contact">
-        <img src="https://img.icons8.com/fluency/48/000000/contacts.png" alt="">
-        <div>Contact</div>
-      </div>
+    <div class="right">
+        <img src="assets/profile.jpg" alt="profile picture">
     </div>
+</div>
 
-    <!-- Windows -->
-    <div class="window" id="win-about" style="display:none;">
-      <div class="titlebar">
-        <span>About — Addy</span>
-        <div class="controls">
-          <button class="min">_</button>
-          <button class="close">✕</button>
-        </div>
-      </div>
-      <div class="win-body">
-        <h2>About</h2>
-        <p>I'm Addy — an MSc Physics student. I love QCD, EIC, neutron stars and retro UIs.</p>
-        <p>Short CV: MSc Physics • Research on detectors • Notes & projects.</p>
-      </div>
-    </div>
-
-    <div class="window" id="win-projects" style="display:none;">
-      <div class="titlebar">
-        <span>Projects</span>
-        <div class="controls">
-          <button class="min">_</button>
-          <button class="close">✕</button>
-        </div>
-      </div>
-      <div class="win-body">
-        <h2>Projects</h2>
-        <ul>
-          <li><strong>EIC Detector Notes</strong> — simulation + reconstruction notes.</li>
-          <li><strong>QGP Notes</strong> — summary & references.</li>
-          <li><strong>Portfolio</strong> — this retro site + demos.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="window" id="win-contact" style="display:none;">
-      <div class="titlebar">
-        <span>Contact</span>
-        <div class="controls">
-          <button class="min">_</button>
-          <button class="close">✕</button>
-        </div>
-      </div>
-      <div class="win-body">
-        <h2>Contact</h2>
-        <p>Email: <a href="mailto:your-email@example.com">your-email@example.com</a></p>
-        <p>GitHub: <a href="https://github.com/yourusername" target="_blank">github.com/yourusername</a></p>
-      </div>
-    </div>
-
-    <!-- Bottom dock -->
-    <div id="dock">
-      <div class="dock-item" data-window="win-about">About</div>
-      <div class="dock-item" data-window="win-projects">Projects</div>
-      <div class="dock-item" data-window="win-contact">Contact</div>
-    </div>
-
-    <footer id="footer">© 2025 Addy — Retro OS style • Hosted on GitHub Pages</footer>
-  </div>
-
-  <script src="assets/script.js"></script>
 </body>
 </html>
