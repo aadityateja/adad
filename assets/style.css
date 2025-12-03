@@ -34,6 +34,16 @@ body {
     }
 }
 
+.stars {
+    z-index: 0;
+}
+
+.container {
+    position: relative;
+    z-index: 10;
+}
+
+
 /* Link color inside .left */
 .left a {
     color: blue;
