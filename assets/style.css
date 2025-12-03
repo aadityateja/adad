@@ -29,10 +29,13 @@ body {
     }
 }
 
+/* Your custom colors */
 body {
-    background-color: lightblue;
+    background-color: lightblue;   /* this replaced background:black above */
     color: blue;
+}
 
+/* Link color inside .left */
 .left a {
-    color: blue;   /* or any color you want */
+    color: blue;
 }
