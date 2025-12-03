@@ -50,4 +50,6 @@ body {
     background-color: red;
     color: white;
 
-
+.left a {
+    color: darkblue;   /* or any color you want */
+}
