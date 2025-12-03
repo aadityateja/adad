@@ -5,6 +5,13 @@ body {
     padding: 0;
 }
 
+body {
+    background-image: url('assets/wp13355409.jpg');
+    background-size: cover;
+    background-attachment: fixed; /* gives a slight parallax feel */
+    background-position: center;
+    color: white;
+}
 
 
 
