@@ -1,14 +1,18 @@
+/* Global body style */
 body {
     margin: 0;
     overflow: hidden;
-    background: black;
+    background: black; /* Night sky */
     color: white;
 }
 
 /* Star animation */
 .stars {
-    width: 1px;
-    height: 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;     /* Full screen width */
+    height: 3000px;   /* Large vertical area so movement is visible */
     background: transparent;
     box-shadow: 
         1000px 2000px white,
@@ -20,6 +24,7 @@ body {
     animation: move-stars 20s linear infinite;
 }
 
+/* Keyframes */
 @keyframes move-stars {
     from {
         transform: translateY(0px);
@@ -27,12 +32,6 @@ body {
     to {
         transform: translateY(-2000px);
     }
-}
-
-/* Your custom colors */
-body {
-    background-color: lightblue;   /* this replaced background:black above */
-    color: blue;
 }
 
 /* Link color inside .left */
