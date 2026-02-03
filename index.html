@@ -1,35 +1,335 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name</title>
-    <link rel="stylesheet" href="assets/style.css">
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <title></title>
+  <style type='text/css'>
+    body {
+      margin: 0 0;
+      height: 100%;
+      background-size: 100%;
+      background-color: #000;
+      text-align: center;
+      color: #fff;
+    }
+
+    img {
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    #manga[m='0'] img, #manga[m='2'] img {
+      height: 30%;
+      width: auto; 
+    }
+
+    #manga[m='1'] img {
+      height: auto;
+      width: 35%;
+    }
+  </style>
 </head>
-
 <body>
+  <div id='buttons'>
+      <svg id="spread-mode" width="49" height="38" xmlns="http://www.w3.org/2000/svg">
+        <ellipse rx="11" ry="5" cx="15" cy="5" fill="#fff" />
+        <ellipse rx="11" ry="5" cx="35" cy="5" fill="#fff" />
 
-    <!-- Stars -->
-    <div class="stars"></div>
+        <rect width="40" height="30" x="5" y="5" fill="#fff" />
 
-    <!-- Container -->
-    <div class="container">
-        <div class="left">
-            <h1>Aditya Teja S</h1>
-            <p>
-                MSc Physics • Particle Physics • QCD • EIC  
-                Researcher • Writer • Science communicator
-            </p>
+        <line x1='5' y1='5' x2='5' y2='35' style="stroke:#fff;stroke-width:2" />
+        <line x1='25' y1='5' x2='25' y2='35' style="stroke:#000;stroke-width:2" />
+        <line x1='45' y1='5' x2='45' y2='35' style="stroke:#fff;stroke-width:2" />
 
-            <p><a href="mailto:adityasureshams@gmail.com">adityasureshams@gmail.com</a></p>
-            <p><a href="https://atomtales.blogspot.com/" target="_blank">Atom Tales</a></p>
-            <p><a href="https://www.linkedin.com/in/aadityateja/" target="_blank">LinkedIn</a></p>
-        </div>
+        <ellipse rx="11" ry="5" cx="15" cy="35" fill="#fff" />
+        <ellipse rx="11" ry="5" cx="35" cy="35" fill="#fff" />
+        
+        <ellipse rx="11" ry="5" cx="15" cy="37" fill="#000" />
+        <ellipse rx="11" ry="5" cx="35" cy="37" fill="#000" />
+      </svg>
+      <svg id="singular-mode" width="49" height="38" xmlns="http://www.w3.org/2000/svg">
+        <rect width="35" height="33" x="7" y="3" fill="#fff" />
+        <ellipse rx="5" ry="16.5" cx="7" cy="19.5" fill="#000" />
+        <ellipse rx="5" ry="16.5" cx="42" cy="19.5" fill="#000" />
+      </svg>
+      <svg id="vertical-mode" width="49" height="38" xmlns="http://www.w3.org/2000/svg">
+        <rect width="35" height="6" x="7" y="3" fill="#fff" />
+        <rect width="35" height="6" x="7" y="12" fill="#fff" />
+        <rect width="35" height="6" x="7" y="21" fill="#fff" />
+        <rect width="35" height="6" x="7" y="30" fill="#fff" />
+      </svg>
+      <!-- <svg width="38" height="38" xmlns="http://www.w3.org/2000/svg">
+        <rect width="22" height="22" x="8" y="8" fill="#fff" />
+        <polygon points="19,3 3,10 35,10" fill="#fff" />
+        <polygon points="19,36 3,29 35,29" fill="#fff" />
+      </svg>
+      <svg width="38" height="38" xmlns="http://www.w3.org/2000/svg">
+        <rect width="22" height="22" x="8" y="8" fill="#fff" />
+        <polygon points="3,19 10,3 10,35" fill="#fff" />
+        <polygon points="36,19 29,3 29,35" fill="#fff" />
+      </svg> -->
+  </div>
+  <br>
+  <div id='manga'>
+	  <img id='a'>
+  </div>
+  <br>
+  <span>MangaViewer v1.2 by Sawa</span>
+  <script>
+    /*
+     * Variables:
+     * 
+     * k - The current page number.
+     * p - Optional prefix used in the file name (if applicable).
+     * z - Total number of digits in the file names.
+     *     Example: For files named "00001.jpeg", z should be 5.
+     * e - File extension (e.g., "jpeg", "png").
+     * o - Reference to the image DOM element where the image will be rendered.
+     * y - Function used to retrieve the image file.
+     * l - Path to the folder containing the image files.
+     */
 
-        <div class="right">
-            <img src="assets/InShot_20251130_164711922 (1).jpg" alt="profile picture">
-        </div>
-    </div>   <!-- ⭐ THIS WAS MISSING -->
+    var m = localStorage["mode"] == null ? 0 : Number(localStorage["mode"]), 
+        k = m == 1 ? 0 : 1, 
+        l = location.href.split('/'), 
+        z = 3, 
+        e = '.jpg',
+        p = '',
+        o = document.querySelector('#a'),
+        ma = document.querySelector('#manga'),
+        ms = ['singular', 'spread', 'vertical'];
 
+    l = l[l.length-2];
+    ma.setAttribute('m', m);
+
+    // initialization:
+    if (localStorage[l] != null) {
+    	k = Number(localStorage[l]);
+    	console.log(`Continue reading from page ${k}.`);
+
+      if (m == 2) {
+        setTimeout(() => { location.href = `#${k}`; }, 100);
+      }
+    }
+    
+    function y(k) {
+      if (!k) {
+        console.log(window.k);
+        k = window.k;
+      }
+      t = '';
+      valCheck();
+      for (let i = 0; i < z-String(k).length; i++) {
+        t += '0';
+      }
+      return p + t + k + e;
+    }
+
+    function valCheck() {
+      switch (m) {
+        /* 
+          valCheck is to check the current page number. 
+          If it's single page mode, the minimum page number can only be 1;
+        */
+        case 0: {
+          if (k <= 0) {
+            k = 1;
+            console.log(k);
+          }
+          break;
+        }
+        /*
+          But if it's spread mode, it can be 0. 
+          Because the page 1 can be ltierally the first page of a manga, and most of the time it's the front cover of it. 
+          In order to support spread pages, ( like this: https://www.reddit.com/r/ChainsawMan/comments/fsk21j/all_manga_spreads/ ), the front cover can't be shown with the other pages. 
+          In other words, it should be shown alone.
+        */
+        case 1: {
+          if (k < 0) {
+            k = 0;
+          }
+          break;
+        }
+      }
+    }
+
+    function initImages() {
+      switch (m) {
+        case 0: { // lol, 0 == '1'.
+          o.src = y(k);
+          break;
+        }
+        case 1: {
+          if (k != 0) {
+            o.src = y(k);
+          } else {
+            o.src = '';
+          }
+
+          let o2 = document.querySelector('#b') ? document.querySelector('#b') : document.createElement('img');
+          o2.src = y(k+1);
+          o2.setAttribute('id', 'b');
+          ma.insertBefore(o2, o);
+          break;
+        }
+        case 2: {
+          o.src = y(1);
+          o.onclick = () => { location.href = "#2"; };
+
+          for (var i = 2; i < 300; i++) { // 300というのは適当。だいたい漫画1巻で220ページ前後が普通。
+            const t = document.createElement("img");
+            
+            t.id = i;
+            t.src = y(i);
+            t.onclick = () => {
+              k = Number(t.id) + 1;
+              localStorage[l] = k;
+              location.href = `#${k}`;
+            };
+            t.onerror = () => { t.remove(); };
+            ma.append(document.createElement("br"));
+            ma.append(t);
+          }
+          break;
+        }
+      }
+    }
+
+    // Check reading mode:
+    initImages();
+
+    // key down:
+    document.addEventListener('keydown', function (event) {
+      if (m == 2) return;
+
+      let n = event.keyCode;
+      if (!(n == 39 || n == 37)) return;
+
+      switch (m) {
+      	case 0: {
+		      k = k + (n - 38);
+		      valCheck();
+		      o.src = y(k);
+		      break;
+      	}
+      	case 1: {
+		      k = k + (n - 38)*-2;
+		      valCheck();
+
+	    		if (k != 0) {
+		    		o.src = y(k);
+	    		} else {
+	    			o.src = '';
+	    		}
+		      document.querySelector('#b').src = y(k+1);
+		      break;
+      	}
+      }
+    });
+
+    // mouse click detection:
+    o.addEventListener('click', function(event) {
+      if (m != 0) return;
+
+      let isLeft = event.offsetX <= o.offsetWidth/2;
+
+      k = k + (isLeft ? -1 : 1);
+
+      valCheck();
+      o.src = y(k);
+    });
+
+    ma.addEventListener('click', function(event) {
+      if (m != 1) return;
+      let isLeft = k == 0 ? true : event.target.id == "b";
+
+      k = k + (isLeft ? -1 : 1)*(m == 1 ? -2 : 2);
+
+      valCheck();
+      o.src = k != 0 ? y(k) : '';
+      document.querySelector('#b').src = y(k+1);
+    });
+
+    // update images/image data(variables z & e) when the user drag&drop an image file 
+    document.addEventListener('dragover', function handleDragOver(event) {
+      event.preventDefault();
+      event.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy operation
+    }, false);
+    document.addEventListener('drop', function handleFileSelect(event) {
+      event.preventDefault();
+      if (!event.dataTransfer) return;
+      let file, fileName;
+      if (event.dataTransfer.items) {
+        // Use DataTransferItemList interface to access the file(s)
+        for (let i = 0; i < event.dataTransfer.items.length; i++) {
+          // If dropped items aren't files, reject them
+          if (event.dataTransfer.items[i].kind === 'file') {
+            file = event.dataTransfer.items[i].getAsFile();
+            fileName = file.name;
+          }
+        }
+      } else {
+        // Use DataTransfer interface to access the file(s)
+        for (let i = 0; i < event.dataTransfer.files.length; i++) {
+          file = event.dataTransfer.files[i];
+          fileName = file.name;
+        }
+      }
+
+      if (fileName) {
+        let s = fileName.split('.');
+        z = s[0].length;
+        e = '.' + s[1];
+        console.log(z, e)
+        
+        k = Number(s[0].split('0').join(''));
+        
+        if (m == 1 && k == 1) k = 0;
+
+        initImages();
+      }
+    }, false);
+
+    document.querySelectorAll('img').forEach((e, i) => {
+      if (m == 2) return;
+    	e.setAttribute('draggable', 'false');
+	    // onload -> save the last page & move to the top of the page
+    	e.addEventListener('load', function(event) {
+	      location.href = '#';
+	      localStorage[l] = k;
+	    });
+    });
+
+    document.querySelectorAll('#buttons svg').forEach((e, i) => {
+      e.addEventListener('click', function(event) {
+        let modename = event.target.id.replace("-mode", "");
+        const tag = event.target.tagName.toLowerCase();
+        if (tag == 'rect' || tag == 'line' || tag == 'ellipse') {
+          modename = event.target.parentElement.id.replace("-mode", "");
+        };
+        console.log(modename);
+
+        switch (modename) {
+          case "singular": {
+            localStorage["mode"] = 0;
+            break;
+          }
+          case "spread": {
+            localStorage["mode"] = 1;
+            break;
+          }
+          case "vertical": {
+            localStorage["mode"] = 2;
+            break;
+          }
+        }
+
+        location.reload();
+      });
+    });
+  </script>
 </body>
 </html>
