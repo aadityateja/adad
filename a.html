@@ -4,707 +4,737 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MATTER — A Descent Into Reality</title>
+<title>MATTER.EXE</title>
 
 <style>
 :root {
-  --bg: #050b16;
-  --blue: #67baff;
-  --white: #eaf4ff;
-  --muted: #8299b5;
-  --line: rgba(115,177,255,.17);
+  --blue: #071B72;
+  --white: #FFFFFF;
 }
 
 * { box-sizing: border-box; }
 
 html {
   scroll-behavior: smooth;
-  background: var(--bg);
+  scroll-snap-type: y proximity;
 }
 
 body {
   margin: 0;
+  background: var(--blue);
   color: var(--white);
-  background: var(--bg);
-  font-family: "Courier New", monospace;
-  overflow-x: hidden;
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: 14px;
+  line-height: 1.7;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 5;
-  opacity: .13;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0px,
-    transparent 3px,
-    rgba(120,180,255,.08) 4px
-  );
+button, a { font: inherit; }
+
+a, button {
+  color: var(--white);
+  background: transparent;
+  border: 1px solid var(--white);
+  padding: 9px 12px;
+  text-decoration: none;
+  cursor: pointer;
 }
 
-a { color: inherit; text-decoration: none; }
+a:hover, button:hover,
+a:focus-visible, button:focus-visible {
+  color: var(--blue);
+  background: var(--white);
+  outline: none;
+}
 
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
+.desktop { padding: 12px; }
+
+.window {
+  max-width: 1100px;
+  margin: auto;
+  border: 2px solid var(--white);
+}
+
+.titlebar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 6%;
-  background: rgba(5,11,22,.78);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--line);
-  font-size: 11px;
-  letter-spacing: 2px;
+  padding: 7px 12px;
+  border-bottom: 2px solid var(--white);
+  font-weight: bold;
 }
 
-nav a:hover { color: var(--blue); }
+.controls { display: flex; gap: 5px; }
 
-.nav-links {
+.controls span {
+  border: 1px solid white;
+  width: 19px;
+  height: 19px;
+  text-align: center;
+  line-height: 17px;
+}
+
+nav {
   display: flex;
-  gap: 22px;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 10px;
+  border-bottom: 1px solid white;
 }
 
-.progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 2px;
-  width: 0;
-  z-index: 20;
-  background: var(--blue);
+nav a {
+  border: none;
+  padding: 4px 7px;
 }
+
+nav a::before { content: "["; }
+nav a::after { content: "]"; }
+
+main { padding: clamp(20px, 5vw, 60px); }
 
 section {
-  position: relative;
-  min-height: 100vh;
-  padding: 130px 10% 100px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  isolation: isolate;
+  min-height: 85vh;
+  padding: 55px 0;
+  border-bottom: 1px solid white;
+  scroll-margin-top: 20px;
+  scroll-snap-align: start;
 }
 
-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse at 75% 45%,
-    rgba(35,106,196,.12),
-    transparent 55%
-  );
-}
+.hero { min-height: 90vh; padding-top: 35px; }
 
-.eyebrow {
-  color: var(--blue);
-  font-size: 11px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  margin-bottom: 24px;
-}
-
-h1, h2, p { margin-top: 0; }
-
-h1 {
-  font-size: clamp(65px, 13vw, 160px);
-  letter-spacing: -.09em;
-  line-height: .9;
-  margin-bottom: 35px;
-  font-weight: 400;
-}
-
-h2 {
-  font-size: clamp(36px, 6vw, 78px);
-  font-weight: 400;
-  letter-spacing: -.07em;
-  line-height: 1;
-  margin-bottom: 28px;
-}
-
-p {
-  max-width: 650px;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.9;
-}
-
-.definition {
-  max-width: 700px;
-  color: var(--white);
-  font-size: clamp(18px, 3vw, 29px);
-  line-height: 1.65;
-}
+.prompt { overflow-wrap: anywhere; }
 
 .cursor {
   display: inline-block;
   width: 9px;
-  height: 1em;
-  margin-left: 5px;
-  vertical-align: middle;
-  background: var(--blue);
-  animation: blink 1s steps(2) infinite;
+  height: 17px;
+  background: white;
+  vertical-align: -3px;
+  animation: blink 1s steps(2, start) infinite;
 }
 
-@keyframes blink { 50% { opacity: 0; } }
-
-@keyframes float {
-  50% { transform: translateY(-12px); }
+@keyframes blink {
+  to { visibility: hidden; }
 }
 
-@keyframes orbit {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+h1 {
+  font-size: clamp(4rem, 15vw, 10rem);
+  line-height: .95;
+  letter-spacing: -.09em;
+  margin: 35px 0;
 }
 
-@keyframes pulse {
-  50% { opacity: .45; transform: scale(1.07); }
+h2 {
+  font-size: clamp(2rem, 6vw, 4rem);
+  line-height: 1.1;
+  letter-spacing: -.06em;
+  margin: 12px 0 25px;
 }
 
-.enter {
-  margin-top: 38px;
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  width: fit-content;
-  padding: 14px 0;
-  color: var(--blue);
-  font-size: 11px;
-  letter-spacing: 2px;
-  border-bottom: 1px solid var(--blue);
-}
+h3 { text-transform: uppercase; }
 
-.enter:hover { color: white; }
+p { max-width: 720px; }
+
+.definition {
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  font-weight: bold;
+  line-height: 1.4;
+}
 
 .meta {
-  margin-top: 55px;
-  font-size: 10px;
-  letter-spacing: 2px;
-  color: #617b9a;
-}
-
-/* Atomic visualization */
-
-.atom {
-  position: relative;
-  width: min(65vw, 420px);
-  aspect-ratio: 1;
-  margin: 40px auto;
-  animation: float 6s ease-in-out infinite;
-}
-
-.nucleus {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 40px;
-  height: 40px;
-  transform: translate(-50%,-50%);
-  border-radius: 50%;
-  background: white;
-  box-shadow: 0 0 35px #67baff, 0 0 90px #2269c7;
-}
-
-.orbit {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 38%;
-  border: 1px solid rgba(103,186,255,.55);
-  border-radius: 50%;
-  transform: translate(-50%,-50%) rotate(35deg);
-}
-
-.orbit.two { transform: translate(-50%,-50%) rotate(-35deg); }
-.orbit.three {
-  width: 75%;
-  height: 100%;
-  transform: translate(-50%,-50%);
-}
-
-.electron {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: white;
-  box-shadow: 0 0 18px var(--blue);
-}
-
-.scale-label {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  gap: 20px;
-  border-top: 1px solid var(--line);
-  padding-top: 18px;
-  color: var(--muted);
-  font-size: 11px;
+  gap: 10px;
 }
 
-/* Nucleus and quarks */
-
-.nucleons, .quark-cloud {
-  width: min(70vw, 370px);
-  aspect-ratio: 1;
-  margin: 35px auto;
-  position: relative;
-  border-radius: 50%;
-  background: radial-gradient(circle, #163967 0%, #09172d 52%, transparent 72%);
+.rule {
+  border: none;
+  border-top: 1px solid white;
+  margin: 28px 0;
 }
 
-.nucleon {
-  position: absolute;
-  width: 46%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  border: 1px solid #73baff;
-  background: radial-gradient(circle at 35% 30%, #a9d8ff, #1d5797 35%, #08162a 80%);
+.terminal {
+  border: 1px solid white;
+  padding: 20px;
+  margin: 30px 0;
+  overflow-x: auto;
+}
+
+pre {
+  font: inherit;
+  line-height: 1.35;
+  white-space: pre;
+}
+
+.facts {
   display: grid;
-  place-items: center;
-  font-size: 12px;
-  box-shadow: 0 0 35px rgba(64,153,255,.25);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 25px;
+  margin: 30px 0;
 }
 
-.nucleon:nth-child(1) { left: 12%; top: 18%; }
-.nucleon:nth-child(2) { right: 12%; top: 18%; }
-.nucleon:nth-child(3) { left: 12%; bottom: 18%; }
-.nucleon:nth-child(4) { right: 12%; bottom: 18%; }
+.fact {
+  border-left: 2px solid white;
+  padding-left: 15px;
+}
 
-.quark {
-  position: absolute;
-  width: 25%;
-  aspect-ratio: 1;
+.label {
+  display: block;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.value {
+  font-size: 1.15rem;
+  font-weight: bold;
+}
+
+.next {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.small { font-size: 12px; }
+
+.particles {
   display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fff, #72bcff 25%, #205ba0 60%, transparent);
-  box-shadow: 0 0 40px rgba(103,186,255,.25);
-  font-size: 12px;
-  color: #04101f;
-}
-
-.quark:nth-child(1) { left: 20%; top: 18%; }
-.quark:nth-child(2) { right: 20%; top: 18%; }
-.quark:nth-child(3) { left: 38%; bottom: 18%; }
-
-.gluon {
-  position: absolute;
-  width: 90%;
-  height: 1px;
-  background: var(--blue);
-  top: 50%;
-  left: 5%;
-  transform: rotate(25deg);
-  opacity: .8;
-  box-shadow: 0 0 15px var(--blue);
-}
-
-/* Standard model */
-
-.particle-groups {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0,1fr));
-  gap: 35px;
-  margin-top: 40px;
-}
-
-.particle-groups h3 {
-  color: var(--blue);
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 2px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid var(--line);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 20px 0;
+  border-top: 1px solid white;
+  border-left: 1px solid white;
 }
 
 .particle {
-  display: block;
-  width: 100%;
-  padding: 12px 0;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid rgba(115,177,255,.08);
-  color: var(--white);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
+  padding: 14px;
+  border-right: 1px solid white;
+  border-bottom: 1px solid white;
+  min-height: 90px;
 }
 
-.particle:hover, .particle.active {
-  color: var(--blue);
-  padding-left: 8px;
-}
+.particle strong { display: block; }
 
-.detail {
-  min-height: 115px;
-  padding-top: 22px;
-  margin-top: 30px;
-  border-top: 1px solid var(--line);
-}
-
-.detail strong { color: var(--blue); font-weight: 400; }
-
-/* Periodic table */
-
-.periodic {
+#table {
   display: grid;
-  grid-template-columns: repeat(18, minmax(0,1fr));
-  gap: 4px;
-  margin-top: 35px;
+  grid-template-columns: repeat(18, minmax(0, 1fr));
+  gap: 3px;
+  margin: 25px 0;
 }
 
 .element {
-  position: relative;
   min-width: 0;
-  aspect-ratio: 1 / 1.12;
-  padding: 3px;
-  color: var(--white);
-  background: rgba(20,50,85,.28);
-  border: 1px solid rgba(103,186,255,.25);
-  font-family: inherit;
-  cursor: pointer;
-  transition: background .2s, border .2s, transform .2s;
-}
-
-.element:hover, .element.active {
-  background: #174c83;
-  border-color: #b6ddff;
-  transform: translateY(-2px);
-}
-
-.element .number {
-  display: block;
-  text-align: left;
-  font-size: clamp(5px,.65vw,9px);
-  color: #89b6e6;
-}
-
-.element .symbol {
-  display: block;
+  padding: 3px 1px;
+  border: 1px solid white;
   text-align: center;
-  font-size: clamp(8px,1.3vw,18px);
+  overflow-wrap: anywhere;
 }
 
-.element .name {
-  display: none;
-}
+.element b { display: block; }
 
-.element.spacer {
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.element.lanthanide, .element.actinide {
-  border-color: rgba(160,190,255,.5);
-}
-
-.table-key {
-  margin-top: 20px;
-  font-size: 10px;
-  color: var(--muted);
+#element-info {
+  min-height: 90px;
+  border: 1px solid white;
+  padding: 16px;
+  overflow-wrap: anywhere;
 }
 
 footer {
-  padding: 45px 10%;
-  border-top: 1px solid var(--line);
   display: flex;
   justify-content: space-between;
-  gap: 20px;
-  font-size: 10px;
-  letter-spacing: 2px;
-  color: var(--muted);
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 18px;
 }
 
-@media (max-width: 700px) {
-  nav { padding: 17px 5%; }
-  .nav-links { gap: 10px; font-size: 9px; }
-  section { padding: 110px 7% 80px; }
-  .particle-groups { grid-template-columns: 1fr; gap: 15px; }
-  .periodic { gap: 2px; }
-  .element { padding: 1px; }
-  .element .symbol { font-size: clamp(6px,2vw,12px); }
-  .element .number { font-size: 6px; }
-  footer { flex-direction: column; }
+#progress {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  width: 0;
+  background: white;
+  z-index: 10;
+}
+
+@media (max-width: 650px) {
+  .desktop { padding: 5px; }
+  main { padding: 18px; }
+  section { min-height: auto; padding: 45px 0; }
+  .facts { grid-template-columns: 1fr; }
+  .particles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #table { grid-template-columns: repeat(9, minmax(0, 1fr)); }
+  .element { min-height: 40px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
 }
 </style>
 </head>
 
 <body>
+<div id="progress"></div>
 
-<div class="progress" id="progress"></div>
+<div class="desktop">
+<div class="window">
+
+<header class="titlebar">
+  <span>MATTER.EXE — SCIENCE EXPLORER</span>
+  <span class="controls" aria-hidden="true">
+    <span>_</span><span>□</span><span>×</span>
+  </span>
+</header>
 
 <nav>
-  <a href="#matter">M / 001</a>
-  <div class="nav-links">
-    <a href="#atom">ATOM</a>
-    <a href="#nucleus">NUCLEUS</a>
-    <a href="#quarks">QUARKS</a>
-    <a href="#particles">MODEL</a>
-    <a href="#elements">ELEMENTS</a>
-  </div>
+  <a href="#matter">Matter</a>
+  <a href="#atom">Atom</a>
+  <a href="#nucleus">Nucleus</a>
+  <a href="#quarks">Quarks</a>
+  <a href="#model">Particles</a>
+  <a href="#periodic">Elements</a>
 </nav>
 
-<!-- 001 / MATTER -->
+<main>
 
-<section id="matter">
-  <div class="eyebrow">FIELD NOTES / 001 — REALITY</div>
-  <h1>MATTER<span style="color:var(--blue)">.</span></h1>
+<!-- 00: MATTER -->
 
-  <div class="definition">
-    Matter is anything that has mass
-    and occupies space<span class="cursor"></span>
+<section id="matter" class="hero">
+  <div class="prompt">
+    C:\REALITY&gt; run matter.exe <span class="cursor"></span>
   </div>
 
-  <p style="margin-top:25px">
-    A familiar definition. A starting point, not an ending.
-    What is matter made of? How small can we look?
-    And where does the idea of a fundamental object begin?
+  <p class="small">SYSTEM 001 / A JOURNEY INTO REALITY</p>
+
+  <h1>MATTER</h1>
+
+  <p class="definition">
+    Anything that has mass and occupies space.
   </p>
 
-  <a class="enter" href="#atom">[ ENTER THE ATOMIC REALM ] ↘</a>
+  <p>
+    Everything around you belongs to a physical world.
+    Your body. The air. The ground. The stars.
+    But what is matter made of?
+  </p>
 
-  <div class="meta">OBSERVE / DECOMPOSE / UNDERSTAND</div>
+  <div class="terminal">
+<pre>OBJECT DETECTED
+
+MASS       : INERTIA
+SPACE      : VOLUME
+STRUCTURE  : UNKNOWN
+
+MISSION    : EXPLORE INWARD
+STATUS     : READY</pre>
+  </div>
+
+  <p class="prompt">
+    C:\REALITY&gt; descend --level=1 <span class="cursor"></span>
+  </p>
+
+  <div class="next">
+    <span class="small">SCROLL TO CONTINUE ↓</span>
+    <a href="#atom">ENTER ATOMIC REALM →</a>
+  </div>
 </section>
 
-<!-- 002 / ATOM -->
+<!-- 01: ATOM -->
 
 <section id="atom">
-  <div class="eyebrow">SCALE 10⁻¹⁰ METRES / 002</div>
-  <h2>The atomic<br>realm<span style="color:var(--blue)">.</span></h2>
-
-  <p>
-    Ordinary matter is built from atoms. An atom has a compact
-    nucleus surrounded by electrons described by quantum states.
-    Its size is overwhelmingly empty space in the classical picture,
-    but the quantum reality is richer than tiny orbiting planets.
-  </p>
-
-  <div class="atom" aria-label="Stylized atom illustration">
-    <div class="orbit"><span class="electron"></span></div>
-    <div class="orbit two"><span class="electron"></span></div>
-    <div class="orbit three"><span class="electron"></span></div>
-    <div class="nucleus"></div>
+  <div class="meta">
+    <span>01 / ATOMIC REALM</span>
+    <span>SCALE ≈ 10⁻¹⁰ m</span>
   </div>
 
-  <div class="scale-label">
-    <span>ATOM</span>
-    <span>≈ 10⁻¹⁰ m</span>
-    <span>SCROLL TO DESCEND ↓</span>
+  <h2>THE ATOM</h2>
+
+  <p>
+    An atom is a basic unit of a chemical element.
+    It consists of a nucleus and electrons described
+    by quantum mechanics.
+  </p>
+
+  <div class="terminal">
+<pre>          ELECTRON CLOUD
+
+      .     .    .      .    .
+   .       .           .        .
+  .         ┌────────┐            .
+  .         │NUCLEUS │            .
+  .         │ p⁺ n⁰  │            .
+   .        └────────┘          .
+      .     .       .     .</pre>
+  </div>
+
+  <div class="facts">
+    <div class="fact">
+      <span class="label">01 / Nucleus</span>
+      <span class="value">Protons + Neutrons</span>
+      <p>Contains nearly all the mass of an ordinary atom.</p>
+    </div>
+    <div class="fact">
+      <span class="label">02 / Electrons</span>
+      <span class="value">Leptons</span>
+      <p>Quantum particles occupying states around the nucleus.</p>
+    </div>
+  </div>
+
+  <p>
+    An atom is not a miniature solar system.
+    Its electrons are quantum objects, not planets
+    following tiny classical orbits.
+  </p>
+
+  <div class="next">
+    <span class="small">TARGET: THE ATOMIC CORE</span>
+    <a href="#nucleus">APPROACH NUCLEUS →</a>
   </div>
 </section>
 
-<!-- 003 / NUCLEUS -->
+<!-- 02: NUCLEUS -->
 
 <section id="nucleus">
-  <div class="eyebrow">SCALE 10⁻¹⁵ METRES / 003</div>
-  <h2>The nuclear<br>boundary<span style="color:var(--blue)">.</span></h2>
+  <div class="meta">
+    <span>02 / NUCLEAR BOUNDARY</span>
+    <span>SCALE ≈ 10⁻¹⁵ m</span>
+  </div>
+
+  <h2>THE NUCLEUS</h2>
 
   <p>
-    The nucleus occupies a tiny region at the centre of the atom.
-    It contains positively charged protons and electrically neutral
-    neutrons. Nearly all an atom's mass resides here.
+    Almost all the mass of an atom is concentrated
+    within its tiny nucleus.
   </p>
 
-  <div class="nucleons">
-    <div class="nucleon">PROTON</div>
-    <div class="nucleon">NEUTRON</div>
-    <div class="nucleon">NEUTRON</div>
-    <div class="nucleon">PROTON</div>
+  <div class="terminal">
+<pre>       NUCLEUS / CLOSE VIEW
+
+       ┌─────────┐ ┌─────────┐
+       │ PROTON  │ │ NEUTRON │
+       │   p⁺    │ │   n⁰    │
+       └─────────┘ └─────────┘
+
+          NUCLEONS
+
+  PROTON COUNT = ATOMIC NUMBER
+  ISOTOPE      = PROTONS + NEUTRONS</pre>
+  </div>
+
+  <div class="facts">
+    <div class="fact">
+      <span class="label">Atomic number / Z</span>
+      <span class="value">Number of protons</span>
+      <p>Determines the identity of an element.</p>
+    </div>
+    <div class="fact">
+      <span class="label">Mass number / A</span>
+      <span class="value">Protons + neutrons</span>
+      <p>Identifies an isotope when combined with Z.</p>
+    </div>
   </div>
 
   <p>
-    The nucleus is held together by the residual effects of the
-    strong interaction between nucleons. But protons and neutrons
-    are not fundamental particles either.
+    But the proton and neutron are not fundamental
+    particles. Their internal structure leads deeper.
   </p>
 
-  <div class="scale-label">
-    <span>NUCLEUS</span>
-    <span>≈ 10⁻¹⁵ m</span>
-    <span>LOOK CLOSER ↓</span>
+  <div class="next">
+    <span class="small">PROBE THE NUCLEON</span>
+    <a href="#quarks">ENTER QUARK WORLD →</a>
   </div>
 </section>
 
-<!-- 004 / QUARKS -->
+<!-- 03: QUARKS -->
 
 <section id="quarks">
-  <div class="eyebrow">QUANTUM CHROMODYNAMICS / 004</div>
-  <h2>Inside the<br>nucleon<span style="color:var(--blue)">.</span></h2>
+  <div class="meta">
+    <span>03 / QUANTUM CHROMODYNAMICS</span>
+    <span>INSIDE THE NUCLEON</span>
+  </div>
+
+  <h2>QUARK WORLD</h2>
 
   <p>
-    Protons and neutrons are composite particles. Their structure
-    involves quarks, gluons and a dynamic sea of quantum fields.
-    Quarks carry colour charge; gluons mediate the strong interaction.
+    Protons and neutrons are hadrons. They contain
+    valence quarks bound by the strong interaction,
+    mediated by gluons.
   </p>
 
-  <div class="quark-cloud">
-    <div class="quark">u</div>
-    <div class="quark">u</div>
-    <div class="quark">d</div>
-    <div class="gluon"></div>
+  <div class="terminal">
+<pre>PROTON                    NEUTRON
+
+   u       u                 u       d
+    \     /                   \     /
+     [g]                         [g]
+      |                           |
+     [g]                         [g]
+    /     \                   /     \
+   d       u                 d       d
+
+u = UP QUARK
+d = DOWN QUARK
+g = GLUON</pre>
+  </div>
+
+  <div class="facts">
+    <div class="fact">
+      <span class="label">Proton valence content</span>
+      <span class="value">uud</span>
+      <p>Two up quarks and one down quark.</p>
+    </div>
+    <div class="fact">
+      <span class="label">Neutron valence content</span>
+      <span class="value">udd</span>
+      <p>One up quark and two down quarks.</p>
+    </div>
   </div>
 
   <p>
-    A proton has valence-quark content uud. A neutron has udd.
-    Gluons and sea quarks also contribute to their internal dynamics.
-    Isolated quarks are not observed: they remain confined within
-    colour-neutral composite states.
+    Quarks are not observed in isolation under ordinary
+    conditions. This is known as colour confinement.
+    The diagram is conceptual, not a literal snapshot.
   </p>
 
-  <div class="scale-label">
-    <span>QUARKS + GLUONS</span>
-    <span>STRONG INTERACTION</span>
-    <span>FUNDAMENTAL PARTICLES ↓</span>
+  <div class="next">
+    <span class="small">LOAD PARTICLE INVENTORY</span>
+    <a href="#model">OPEN STANDARD MODEL →</a>
   </div>
 </section>
 
-<!-- 005 / STANDARD MODEL -->
+<!-- 04: STANDARD MODEL -->
 
-<section id="particles">
-  <div class="eyebrow">PARTICLE PHYSICS / 005</div>
-  <h2>The Standard<br>Model<span style="color:var(--blue)">.</span></h2>
-
-  <p>
-    The Standard Model describes the known elementary particles
-    and three fundamental interactions: electromagnetic, weak
-    and strong. Gravity is not included in the model.
-    Select a particle to inspect its role.
-  </p>
-
-  <div class="particle-groups">
-
-    <div>
-      <h3>QUARKS</h3>
-      <button class="particle" data-key="up">01 / Up</button>
-      <button class="particle" data-key="down">02 / Down</button>
-      <button class="particle" data-key="charm">03 / Charm</button>
-      <button class="particle" data-key="strange">04 / Strange</button>
-      <button class="particle" data-key="top">05 / Top</button>
-      <button class="particle" data-key="bottom">06 / Bottom</button>
-    </div>
-
-    <div>
-      <h3>LEPTONS</h3>
-      <button class="particle" data-key="electron">07 / Electron</button>
-      <button class="particle" data-key="muon">08 / Muon</button>
-      <button class="particle" data-key="tau">09 / Tau</button>
-      <button class="particle" data-key="neutrino">10 / Neutrinos</button>
-    </div>
-
-    <div>
-      <h3>BOSONS</h3>
-      <button class="particle" data-key="photon">11 / Photon</button>
-      <button class="particle" data-key="gluon">12 / Gluon</button>
-      <button class="particle" data-key="weak">13 / W and Z</button>
-      <button class="particle" data-key="higgs">14 / Higgs</button>
-    </div>
-
+<section id="model">
+  <div class="meta">
+    <span>04 / PARTICLE INVENTORY</span>
+    <span>STANDARD MODEL</span>
   </div>
 
-  <div class="detail" id="particleDetail" aria-live="polite">
-    <strong>SELECT A PARTICLE</strong>
-    <p>Explore its properties, interactions and place in the Standard Model.</p>
+  <h2>THE FUNDAMENTAL</h2>
+
+  <p>
+    The Standard Model describes elementary particles
+    and the electromagnetic, weak and strong interactions.
+    Gravity is not included.
+  </p>
+
+  <h3>Quarks / Matter particles</h3>
+  <div class="particles">
+    <div class="particle"><strong>UP · u</strong>Charge +⅔</div>
+    <div class="particle"><strong>CHARM · c</strong>Charge +⅔</div>
+    <div class="particle"><strong>TOP · t</strong>Charge +⅔</div>
+    <div class="particle"><strong>DOWN · d</strong>Charge −⅓</div>
+    <div class="particle"><strong>STRANGE · s</strong>Charge −⅓</div>
+    <div class="particle"><strong>BOTTOM · b</strong>Charge −⅓</div>
+  </div>
+
+  <h3>Leptons / Matter particles</h3>
+  <div class="particles">
+    <div class="particle"><strong>ELECTRON · e</strong>Charged lepton</div>
+    <div class="particle"><strong>MUON · μ</strong>Charged lepton</div>
+    <div class="particle"><strong>TAU · τ</strong>Charged lepton</div>
+    <div class="particle"><strong>νₑ</strong>Electron neutrino</div>
+    <div class="particle"><strong>νμ</strong>Muon neutrino</div>
+    <div class="particle"><strong>ντ</strong>Tau neutrino</div>
+  </div>
+
+  <h3>Bosons / Interactions and fields</h3>
+  <div class="particles">
+    <div class="particle"><strong>PHOTON · γ</strong>Electromagnetic</div>
+    <div class="particle"><strong>GLUON · g</strong>Strong interaction</div>
+    <div class="particle"><strong>W BOSON</strong>Weak interaction</div>
+    <div class="particle"><strong>Z BOSON</strong>Weak interaction</div>
+    <div class="particle"><strong>HIGGS · H</strong>Higgs field excitation</div>
+  </div>
+
+  <p>
+    These are quantum objects, not tiny hard spheres.
+    Their properties and interactions form the framework
+    of modern particle physics.
+  </p>
+
+  <div class="next">
+    <span class="small">RETURN TO CHEMISTRY</span>
+    <a href="#periodic">OPEN ELEMENTS →</a>
   </div>
 </section>
 
-<!-- 006 / PERIODIC TABLE -->
+<!-- 05: PERIODIC TABLE -->
 
-<section id="elements">
-  <div class="eyebrow">CHEMICAL STRUCTURE / 006</div>
-  <h2>The elements<span style="color:var(--blue)">.</span></h2>
+<section id="periodic">
+  <div class="meta">
+    <span>05 / CHEMICAL ELEMENTS</span>
+    <span>118 ELEMENTS</span>
+  </div>
+
+  <h2>PERIODIC TABLE</h2>
 
   <p>
-    The periodic table organises chemical elements by atomic number.
-    Each element has a nucleus with a particular number of protons.
-    Electrons determine much of its chemical behaviour.
+    Every element has a unique atomic number: the number
+    of protons in its nucleus. Select an element.
   </p>
 
-  <div class="periodic" id="periodicTable"></div>
+  <div id="table" aria-label="Interactive periodic table"></div>
 
-  <div class="detail" id="elementDetail" aria-live="polite">
-    <strong>SELECT AN ELEMENT</strong>
-    <p>Atomic number identifies the element. Isotopes differ in neutron number.</p>
+  <div id="element-info" aria-live="polite">
+    SYSTEM READY. SELECT AN ELEMENT TO INSPECT ITS IDENTITY.
   </div>
 
-  <div class="table-key">
-    118 ELEMENTS / 7 PERIODS / 18 GROUPS
+  <hr class="rule">
+
+  <h3>Journey complete.</h3>
+
+  <p>
+    Matter → Atoms → Nuclei → Quarks → Fundamental
+    particles → Elements.
+  </p>
+
+  <p>
+    Different scales. Connected descriptions.
+    One physical universe.
+  </p>
+
+  <div class="terminal">
+<pre>C:\REALITY&gt; status
+
+SESSION       : COMPLETE
+DESTINATION   : THE WORLD AROUND YOU
+NEXT QUESTION : WHAT ELSE IS THERE?</pre>
   </div>
 
-  <a class="enter" href="#matter">↗ RETURN TO THE BEGINNING</a>
+  <a href="#matter">↺ RESTART JOURNEY</a>
 </section>
+
+</main>
 
 <footer>
-  <span>MATTER / A DESCENT INTO REALITY</span>
-  <span>FROM ELEMENTS TO FUNDAMENTAL FIELDS</span>
+  <span>MATTER.EXE</span>
+  <span id="status">SYSTEM READY</span>
+  <span>BLUE SCREEN / WHITE TEXT</span>
 </footer>
 
+</div>
+</div>
+
 <script>
-// Scroll progress
+/* Scroll progress */
 const progress = document.getElementById("progress");
+const status = document.getElementById("status");
 
-window.addEventListener("scroll", () => {
-  const max = document.documentElement.scrollHeight - innerHeight;
-  progress.style.width = (max > 0 ? scrollY / max * 100 : 0) + "%";
-});
+function updateScreen() {
+  const maxScroll =
+    document.documentElement.scrollHeight - window.innerHeight;
 
-// Standard Model particle information
-const particleData = {
-  up: ["UP QUARK", "Charge +2/3 e. One of the two valence-quark types in a proton."],
-  down: ["DOWN QUARK", "Charge −1/3 e. Two down quarks and one up quark form a neutron's valence content."],
-  charm: ["CHARM QUARK", "A second-generation quark with charge +2/3 e."],
-  strange: ["STRANGE QUARK", "A second-generation quark with charge −1/3 e."],
-  top: ["TOP QUARK", "The most massive known elementary particle; charge +2/3 e."],
-  bottom: ["BOTTOM QUARK", "A third-generation quark with charge −1/3 e."],
-  electron: ["ELECTRON", "A first-generation lepton with charge −1 e. It participates in electromagnetic interactions."],
-  muon: ["MUON", "A heavier cousin of the electron. It is unstable and decays."],
-  tau: ["TAU LEPTON", "The heaviest charged lepton, with a very short lifetime."],
-  neutrino: ["NEUTRINOS", "Electrically neutral leptons that interact through the weak interaction and gravity. Neutrino oscillations imply nonzero masses."],
-  photon: ["PHOTON", "The gauge boson of the electromagnetic interaction."],
-  gluon: ["GLUON", "The gauge boson of the strong interaction. Gluons carry colour charge."],
-  weak: ["W⁺, W⁻ AND Z BOSONS", "Gauge bosons responsible for the weak interaction."],
-  higgs: ["HIGGS BOSON", "An excitation of the Higgs field, discovered at CERN in 2012."]
-};
+  progress.style.width =
+    (maxScroll > 0 ? window.scrollY / maxScroll * 100 : 0) + "%";
 
-document.querySelectorAll(".particle").forEach(button => {
-  button.addEventListener("click", () => {
-    document.querySelectorAll(".particle").forEach(b => b.classList.remove("active"));
-    button.classList.add("active");
+  const sections = [...document.querySelectorAll("main section")];
+  let active = sections[0];
 
-    const [name, description] = particleData[button.dataset.key];
-    document.getElementById("particleDetail").innerHTML =
-      `<strong>${name}</strong><p>${description}</p>`;
-  });
-});
+  for (const section of sections) {
+    if (section.getBoundingClientRect().top < window.innerHeight * 0.4) {
+      active = section;
+    }
+  }
 
-// All 118 elements
-const symbols = [
-"H","He","Li","Be","B","C","N","O","F","Ne",
-"Na","Mg","Al","Si","P","S","Cl","Ar",
-"K","Ca","Sc","Ti","V","Cr","Mn","Fe","Co","Ni","Cu","Zn","Ga","Ge","As","Se","Br","Kr",
-"Rb","Sr","Y","Zr","Nb","Mo","Tc","Ru","Rh","Pd","Ag","Cd","In","Sn","Sb","Te","I","Xe",
-"Cs","Ba","La","Ce","Pr","Nd","Pm","Sm","Eu","Gd","Tb","Dy","Ho","Er","Tm","Yb","Lu",
-"Hf","Ta","W","Re","Os","Ir","Pt","Au","Hg","Tl","Pb","Bi","Po","At","Rn",
-"Fr","Ra","Ac","Th","Pa","U","Np","Pu","Am","Cm","Bk","Cf","Es","Fm","Md","No","Lr",
-"Rf","Db","Sg","Bh","Hs","Mt","Ds","Rg","Cn","Nh","Fl","Mc","Lv","Ts","Og"
+  status.textContent = "LOCATION: " + active.id.toUpperCase();
+}
+
+window.addEventListener("scroll", updateScreen, { passive: true });
+updateScreen();
+
+/* Periodic table: atomic number, symbol, name, group, period */
+const data = [
+[1,"H","Hydrogen",1,1],[2,"He","Helium",18,1],
+[3,"Li","Lithium",1,2],[4,"Be","Beryllium",2,2],
+[5,"B","Boron",13,2],[6,"C","Carbon",14,2],
+[7,"N","Nitrogen",15,2],[8,"O","Oxygen",16,2],
+[9,"F","Fluorine",17,2],[10,"Ne","Neon",18,2],
+[11,"Na","Sodium",1,3],[12,"Mg","Magnesium",2,3],
+[13,"Al","Aluminium",13,3],[14,"Si","Silicon",14,3],
+[15,"P","Phosphorus",15,3],[16,"S","Sulfur",16,3],
+[17,"Cl","Chlorine",17,3],[18,"Ar","Argon",18,3],
+[19,"K","Potassium",1,4],[20,"Ca","Calcium",2,4],
+[21,"Sc","Scandium",3,4],[22,"Ti","Titanium",4,4],
+[23,"V","Vanadium",5,4],[24,"Cr","Chromium",6,4],
+[25,"Mn","Manganese",7,4],[26,"Fe","Iron",8,4],
+[27,"Co","Cobalt",9,4],[28,"Ni","Nickel",10,4],
+[29,"Cu","Copper",11,4],[30,"Zn","Zinc",12,4],
+[31,"Ga","Gallium",13,4],[32,"Ge","Germanium",14,4],
+[33,"As","Arsenic",15,4],[34,"Se","Selenium",16,4],
+[35,"Br","Bromine",17,4],[36,"Kr","Krypton",18,4],
+[37,"Rb","Rubidium",1,5],[38,"Sr","Strontium",2,5],
+[39,"Y","Yttrium",3,5],[40,"Zr","Zirconium",4,5],
+[41,"Nb","Niobium",5,5],[42,"Mo","Molybdenum",6,5],
+[43,"Tc","Technetium",7,5],[44,"Ru","Ruthenium",8,5],
+[45,"Rh","Rhodium",9,5],[46,"Pd","Palladium",10,5],
+[47,"Ag","Silver",11,5],[48,"Cd","Cadmium",12,5],
+[49,"In","Indium",13,5],[50,"Sn","Tin",14,5],
+[51,"Sb","Antimony",15,5],[52,"Te","Tellurium",16,5],
+[53,"I","Iodine",17,5],[54,"Xe","Xenon",18,5],
+[55,"Cs","Caesium",1,6],[56,"Ba","Barium",2,6],
+[57,"La","Lanthanum",3,8],[58,"Ce","Cerium",4,8],
+[59,"Pr","Praseodymium",5,8],[60,"Nd","Neodymium",6,8],
+[61,"Pm","Promethium",7,8],[62,"Sm","Samarium",8,8],
+[63,"Eu","Europium",9,8],[64,"Gd","Gadolinium",10,8],
+[65,"Tb","Terbium",11,8],[66,"Dy","Dysprosium",12,8],
+[67,"Ho","Holmium",13,8],[68,"Er","Erbium",14,8],
+[69,"Tm","Thulium",15,8],[70,"Yb","Ytterbium",16,8],
+[71,"Lu","Lutetium",17,8],
+[72,"Hf","Hafnium",4,6],[73,"Ta","Tantalum",5,6],
+[74,"W","Tungsten",6,6],[75,"Re","Rhenium",7,6],
+[76,"Os","Osmium",8,6],[77,"Ir","Iridium",9,6],
+[78,"Pt","Platinum",10,6],[79,"Au","Gold",11,6],
+[80,"Hg","Mercury",12,6],[81,"Tl","Thallium",13,6],
+[82,"Pb","Lead",14,6],[83,"Bi","Bismuth",15,6],
+[84,"Po","Polonium",16,6],[85,"At","Astatine",17,6],
+[86,"Rn","Radon",18,6],
+[87,"Fr","Francium",1,7],[88,"Ra","Radium",2,7],
+[89,"Ac","Actinium",3,9],[90,"Th","Thorium",4,9],
+[91,"Pa","Protactinium",5,9],[92,"U","Uranium",6,9],
+[93,"Np","Neptunium",7,9],[94,"Pu","Plutonium",8,9],
+[95,"Am","Americium",9,9],[96,"Cm","Curium",10,9],
+[97,"Bk","Berkelium",11,9],[98,"Cf","Californium",12,9],
+[99,"Es","Einsteinium",13,9],[100,"Fm","Fermium",14,9],
+[101,"Md","Mendelevium",15,9],[102,"No","Nobelium",16,9],
+[103,"Lr","Lawrencium",17,9],
+[104,"Rf","Rutherfordium",4,7],[105,"Db","Dubnium",5,7],
+[106,"Sg","Seaborgium",6,7],[107,"Bh","Bohrium",7,7],
+[108,"Hs","Hassium",8,7],[109,"Mt","Meitnerium",9,7],
+[110,"Ds","Darmstadtium",10,7],[111,"Rg","Roentgenium",11,7],
+[112,"Cn","Copernicium",12,7],[113,"Nh","Nihonium",13,7],
+[114,"Fl","Flerovium",14,7],[115,"Mc","Moscovium",15,7],
+[116,"Lv","Livermorium",16,7],[117,"Ts","Tennessine",17,7],
+[118,"Og","Oganesson",18,7]
 ];
 
-const names = [
-"Hydrogen","Helium","Lithium","Beryllium","Boron","Carbon","Nitrogen","Oxygen","Fluorine","Neon",
-"Sodium","Magnesium","Aluminium","Silicon","Phosphorus","Sulfur","Chlorine","Argon",
-"Potassium","Calcium","Scandium","Titanium","Vanadium","Chromium","Manganese","Iron","Cobalt","Nickel","Copper","Zinc","Gallium","Germanium","Arsenic","Selenium","Bromine","Krypton",
-"Rubidium","Strontium","Yttrium","Zirconium","Niobium","Molybdenum","Technetium","Ruthenium","Rhodium","Palladium","Silver","Cadmium","Indium","Tin","Antimony","Tellurium","Iodine","Xenon",
-"Caesium","Barium","Lanthanum","Cerium","Praseodymium","Neodymium","Promethium","Samarium","Europium","Gadolinium","Terbium","Dysprosium","Holmium","Erbium","Thulium","Ytterbium","Lutetium",
-"Hafnium","Tantalum","Tungsten","Rhenium","Osmium","Iridium","Platinum","Gold","Mercury","Thallium","Lead","Bismuth","Polonium","Astatine","Radon",
-"Francium","Radium","Actinium","Thorium","Protactinium","Uranium","Neptunium","Plutonium","Americium","Curium","Berkelium","Californium","Einsteinium","Fermium","Mendelevium","Nobelium","Lawrencium",
-"Rutherfordium","Dubnium","Seaborgium","Bohrium","Hassium","Meitnerium","Darmstadtium
+const table = document.getElementById("table");
+const info = document.getElementById("element-info");
+
+data.forEach(([number, symbol, name, group, period]) => {
+  const button = document.createElement("button");
+  button.className = "element";
+  button.style.gridColumn = group;
+  button.style.gridRow = period;
+  button.innerHTML = `${number}<b>${symbol}</b>`;
+  button.setAttribute("aria-label", `${name}, atomic number ${number}`);
+
+  button.addEventListener("click", () => {
+    info.textContent =
+      `${String(number).padStart(3, "0")} / ${name.toUpperCase()} (${symbol})` +
+      ` — ATOMIC NUMBER: ${number}. A neutral atom has ${number} electrons. ` +
+      `The number of neutrons depends on the isotope.`;
+
+    status.textContent = "ELEMENT LOADED: " + symbol.toUpperCase();
+  });
+
+  table.appendChild(button);
+});
+</script>
+</body>
+</html>
