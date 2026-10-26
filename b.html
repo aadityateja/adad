@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pong</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --line: #e2e8f0;
+      --text: #f8fafc;
+      --accent: #38bdf8;
+      --paddle: #f8fafc;
+      --ball: #facc15;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at top, #1e293b, var(--bg));
+      color: var(--text);
+      font-family: Arial, sans-serif;
+    }
+
+    .game-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .scoreboard {
+      width: 800px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      background: rgba(17, 24, 39, 0.8);
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 12px;
+      padding: 10px 20px;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+    }
+
+    #leftScore, #rightScore {
+      min-width: 50px;
+      text-align: center;
+      color: var(--accent);
+    }
+
+    canvas {
+      display: block;
+      background: #020817;
+      border: 3px solid rgba(255,255,255,0.18);
+      border-radius: 12px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.35);
+    }
+
+    .hint {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      letter-spacing: 0.04em;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-wrapper">
+    <div class="scoreboard">
+      <span id="leftScore">0</span>
+      <span style="padding: 0 12px;">:</span>
+      <span id="rightScore">0</span>
+    </div>
+
+    <canvas id="gameCanvas" width="800" height="480"></canvas>
+
+    <div class="hint">Move with mouse or ↑ / ↓ keys</div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const leftScoreEl = document.getElementById("leftScore");
+    const rightScoreEl = document.getElementById("rightScore");
+
+    const paddleWidth = 12;
+    const paddleHeight = 100;
+    const paddleSpeed = 440; // pixels per second
+
+    let leftScore = 0;
+    let rightScore = 0;
+
+    const leftPaddle = {
+      x: 30,
+      y: canvas.height / 2 - paddleHeight / 2,
+      width: paddleWidth,
+      height: paddleHeight,
+      speed: paddleSpeed
+    };
+
+    const rightPaddle = {
+      x: canvas.width - 30 - paddleWidth,
+      y: canvas.height / 2 - paddleHeight / 2,
+      width: paddleWidth,
+      height: paddleHeight,
+      speed: 350
+    };
+
+    const ball = {
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      radius: 8,
+      vx: 280,
+      vy: 200
+    };
+
+    const keys = {
+      ArrowUp: false,
+      ArrowDown: false
+    };
+
+    let lastTime = 0;
+
+    function resetBall(direction = 1) {
+      ball.x = canvas.width / 2;
+      ball.y = canvas.height / 2;
+      const rand = (Math.random() - 0.5) * 140;
+      ball.vx = direction * (300 + Math.random() * 80);
+      ball.vy = rand;
+    }
+
+    function updateScore() {
+      leftScoreEl.textContent = leftScore;
+      rightScoreEl.textContent = rightScore;
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function handleInput(dt) {
+      // Player controlled by keyboard
+      if (keys.ArrowUp) {
+        leftPaddle.y -= leftPaddle.speed * dt;
+      }
+      if (keys.ArrowDown) {
+        leftPaddle.y += leftPaddle.speed * dt;
+      }
+
+      leftPaddle.y = clamp(leftPaddle.y, 0, canvas.height - leftPaddle.height);
+    }
+
+    function updateComputer(dt) {
+      const paddleCenter = rightPaddle.y + rightPaddle.height / 2;
+      const targetY = ball.y - rightPaddle.height / 2;
+
+      // Smooth tracking
+      if (ball.x > canvas.width / 2) {
+        if (paddleCenter < targetY) {
+          rightPaddle.y += rightPaddle.speed * dt;
+        } else if (paddleCenter > targetY) {
+          rightPaddle.y -= rightPaddle.speed * dt;
+        }
+      }
+
+      rightPaddle.y = clamp(rightPaddle.y, 0, canvas.height - rightPaddle.height);
+    }
+
+    function checkWallCollision() {
+      if (ball.y - ball.radius <= 0) {
+        ball.y = ball.radius;
+        ball.vy *= -1;
+      } else if (ball.y + ball.radius >= canvas.height) {
+        ball.y = canvas.height - ball.radius;
+        ball.vy *= -1;
+      }
+    }
+
+    function intersectsPaddle(paddle, ball) {
+      return (
+        ball.x + ball.radius > paddle.x &&
+        ball.x - ball.radius < paddle.x + paddle.width &&
+        ball.y + ball.radius > paddle.y &&
+        ball.y - ball.radius < paddle.y + paddle.height
+      );
+    }
+
+    function handlePaddleCollision() {
+      // Left paddle
+      if (
+        ball.x - ball.radius <= leftPaddle.x + leftPaddle.width &&
+        ball.x - ball.radius >= leftPaddle.x &&
+        ball.y >= leftPaddle.y &&
+        ball.y <= leftPaddle.y + leftPaddle.height
+      ) {
+        ball.x = leftPaddle.x + leftPaddle.width + ball.radius;
+        const relativeIntersectY = (ball.y - (leftPaddle.y + leftPaddle.height / 2)) / (leftPaddle.height / 2);
+        const bounceAngle = relativeIntersectY * (Math.PI / 3);
+        const speed = Math.hypot(ball.vx, ball.vy) + 20;
+        ball.vx = Math.cos(bounceAngle) * speed;
+        ball.vy = Math.sin(bounceAngle) * speed;
+      }
+
+      // Right paddle
+      if (
+        ball.x + ball.radius >= rightPaddle.x &&
+        ball.x + ball.radius <= rightPaddle.x + rightPaddle.width &&
+        ball.y >= rightPaddle.y &&
+        ball.y <= rightPaddle.y + rightPaddle.height
+      ) {
+        ball.x = rightPaddle.x - ball.radius;
+        const relativeIntersectY = (ball.y - (rightPaddle.y + rightPaddle.height / 2)) / (rightPaddle.height / 2);
+        const bounceAngle = relativeIntersectY * (Math.PI / 3);
+        const speed = Math.hypot(ball.vx, ball.vy) + 20;
+        ball.vx = -Math.cos(bounceAngle) * speed;
+        ball.vy = Math.sin(bounceAngle) * speed;
+      }
+    }
+
+    function updateBall(dt) {
+      ball.x += ball.vx * dt;
+      ball.y += ball.vy * dt;
+
+      checkWallCollision();
+      handlePaddleCollision();
+
+      if (ball.x + ball.radius < 0) {
+        rightScore++;
+        updateScore();
+        resetBall(1);
+      } else if (ball.x - ball.radius > canvas.width) {
+        leftScore++;
+        updateScore();
+        resetBall(-1);
+      }
+    }
+
+    function drawPaddle(paddle) {
+      ctx.fillStyle = "#f8fafc";
+      ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
+    }
+
+    function drawBall() {
+      ctx.beginPath();
+      ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+      ctx.fillStyle = "#facc15";
+      ctx.fill();
+      ctx.closePath();
+    }
+
+    function drawCenterLine() {
+      ctx.strokeStyle = "rgba(255,255,255,0.18)";
+      ctx.setLineDash([12, 12]);
+      ctx.beginPath();
+      ctx.moveTo(canvas.width / 2, 0);
+      ctx.lineTo(canvas.width / 2, canvas.height);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      drawCenterLine();
+      drawPaddle(leftPaddle);
+      drawPaddle(rightPaddle);
+      drawBall();
+    }
+
+    function gameLoop(timestamp) {
+      const dt = Math.min((timestamp - lastTime) / 1000 || 0.016, 0.033);
+      lastTime = timestamp;
+
+      handleInput(dt);
+      updateComputer(dt);
+      updateBall(dt);
+      draw();
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    // Mouse movement controls left paddle
+    canvas.addEventListener("mousemove", (event) => {
+      const rect = canvas.getBoundingClientRect();
+      const mouseY = event.clientY - rect.top;
+      leftPaddle.y = mouseY - leftPaddle.height / 2;
+      leftPaddle.y = clamp(leftPaddle.y, 0, canvas.height - leftPaddle.height);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+        keys[event.key] = true;
+      }
+    });
+
+    document.addEventListener("keyup", (event) => {
+      if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+        keys[event.key] = false;
+      }
+    });
+
+    updateScore();
+    resetBall(Math.random() < 0.5 ? -1 : 1);
+    requestAnimationFrame(gameLoop);
+  </script>
+</body>
+</html>
