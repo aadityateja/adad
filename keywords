@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1647E8">
+<meta name="description" content="KEYWORDS turns your words into sentences, stories, and poems. You bring the words. We find the story.">
+<title>KEYWORDS — You bring the words.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #FF3B30;
+    --blue: #1647E8;
+    --green: #A7FF4F;
+    --font: "Space Grotesk", "Trebuchet MS", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--blue);
+    color: var(--green);
+    font-family: var(--font);
+    overflow-x: hidden;
+  }
+  a { color: inherit; }
+  button, input, select { font: inherit; }
+  button, a { -webkit-tap-highlight-color: transparent; }
+  .wrap { width: min(1120px, calc(100% - 40px)); margin-inline: auto; }
+  .topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 0; gap: 18px; border-bottom: 2px solid var(--green);
+  }
+  .brand { font-size: 1.15rem; font-weight: 700; letter-spacing: -.07em; text-decoration: none; }
+  .brand span { color: var(--red); }
+  .nav { display: flex; align-items: center; gap: 24px; font-size: .88rem; font-weight: 600; }
+  .nav a { text-decoration: none; }
+  .nav a:hover { color: var(--red); }
+  .nav-cta {
+    border: 2px solid var(--red); background: var(--red); color: var(--blue);
+    padding: 10px 14px; text-decoration: none; font-weight: 700;
+  }
+  .hero { padding: clamp(72px, 12vw, 140px) 0 84px; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    color: var(--blue); background: var(--green); padding: 8px 12px;
+    font-size: .75rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+  }
+  .eyebrow::before { content: ""; width: 8px; height: 8px; background: var(--red); display: inline-block; }
+  h1 {
+    max-width: 950px; margin: 24px 0 22px; font-size: clamp(4rem, 12.6vw, 9.8rem);
+    line-height: .82; letter-spacing: -.105em; font-weight: 700;
+  }
+  h1 .outline { color: var(--blue); -webkit-text-stroke: 2px var(--green); }
+  .hero-bottom { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 30px; margin-top: 36px; }
+  .hero-copy { max-width: 510px; font-size: clamp(1.05rem, 2vw, 1.35rem); line-height: 1.5; }
+  .hero-copy strong { color: var(--red); }
+  .button {
+    display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+    border: 2px solid var(--red); background: var(--red); color: var(--blue);
+    padding: 15px 20px; font-weight: 700; text-decoration: none; cursor: pointer;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .button:hover { transform: translate(-3px, -3px); }
+  .button.secondary { background: var(--blue); color: var(--green); border-color: var(--green); }
+  .button.secondary:hover { background: var(--green); color: var(--blue); }
+  .marquee {
+    background: var(--green); color: var(--blue); padding: 13px 0; overflow: hidden;
+    border-block: 2px solid var(--red); font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .marquee-track { display: inline-block; min-width: 200%; animation: move 28s linear infinite; }
+  @keyframes move { to { transform: translateX(-50%); } }
+  .section { padding: 88px 0; }
+  .section-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 32px; }
+  .kicker { color: var(--red); font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  h2 { font-size: clamp(2.4rem, 6vw, 5.2rem); letter-spacing: -.08em; line-height: .95; margin: 12px 0 0; }
+  .section-note { max-width: 300px; line-height: 1.55; }
+  .lab {
+    border: 2px solid var(--green); padding: clamp(18px, 4vw, 34px);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 30px;
+  }
+  .lab-label { color: var(--red); font-size: .75rem; letter-spacing: .1em; font-weight: 700; text-transform: uppercase; }
+  .word-input {
+    display: block; width: 100%; margin-top: 14px; padding: 16px 0;
+    color: var(--green); background: transparent; border: 0; border-bottom: 2px solid var(--green);
+    outline: none; font-size: clamp(1.15rem, 2.5vw, 1.65rem); border-radius: 0;
+  }
+  .word-input:focus { border-color: var(--red); }
+  .word-input::placeholder { color: var(--green); opacity: .65; }
+  .helper { font-size: .82rem; line-height: 1.5; margin-top: 12px; }
+  .controls { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .chip {
+    border: 1.5px solid var(--green); color: var(--green); background: transparent;
+    padding: 8px 12px; cursor: pointer; font-size: .84rem; font-weight: 600;
+  }
+  .chip[aria-pressed="true"] { background: var(--green); color: var(--blue); }
+  .output {
+    min-height: 250px; border: 2px solid var(--red); padding: 22px;
+    display: flex; flex-direction: column; align-items: flex-start;
+  }
+  .output-top { display: flex; justify-content: space-between; gap: 12px; width: 100%; color: var(--red); font-size: .75rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; }
+  .output-text { font-size: clamp(1.25rem, 2.7vw, 1.85rem); line-height: 1.35; letter-spacing: -.035em; margin: 28px 0; overflow-wrap: anywhere; }
+  .output-bottom { margin-top: auto; display: flex; gap: 10px; flex-wrap: wrap; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .step { border: 2px solid var(--green); padding: 24px; min-height: 220px; display: flex; flex-direction: column; }
+  .step-no { color: var(--red); font-size: .8rem; font-weight: 700; }
+  .step h3 { font-size: 1.65rem; letter-spacing: -.06em; margin: 30px 0 10px; }
+  .step p { margin: 0; line-height: 1.5; font-size: .94rem; }
+  .genre-line { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+  .genre { padding: 10px 13px; border: 1.5px solid var(--green); font-size: .9rem; }
+  .genre:nth-child(3n + 2) { color: var(--blue); background: var(--green); }
+  .community {
+    background: var(--green); color: var(--blue); padding: clamp(28px, 6vw, 64px);
+    display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 30px;
+  }
+  .community .kicker { color: var(--red); }
+  .community h2 { max-width: 700px; }
+  .community p { max-width: 540px; line-height: 1.6; }
+  .community .button { background: var(--red); color: var(--blue); }
+  footer { padding: 28px 0 36px; display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; font-size: .83rem; }
+  footer p { margin: 0; }
+  .status { color: var(--red); font-size: .8rem; min-height: 1.2em; margin-top: 10px; }
+  @media (max-width: 720px) {
+    .wrap { width: min(100% - 28px, 1120px); }
+    .topbar { padding: 18px 0; }
+    .nav { gap: 13px; font-size: .8rem; }
+    .nav .hide-mobile { display: none; }
+    .hero { padding: 80px 0 65px; }
+    .hero-bottom, .lab, .community { grid-template-columns: 1fr; }
+    .hero-bottom { align-items: start; }
+    .hero-bottom .button { justify-self: start; }
+    .section { padding: 65px 0; }
+    .section-head { display: block; }
+    .section-note { margin-top: 18px; }
+    .steps { grid-template-columns: 1fr; }
+    .step { min-height: 170px; }
+    .step h3 { margin-top: 22px; }
+    .community { align-items: start; }
+    h1 { font-size: clamp(3.8rem, 18vw, 7rem); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body>
+<header class="wrap topbar">
+  <a class="brand" href="#" aria-label="KEYWORDS home">KEY<span>WORDS</span>.</a>
+  <nav class="nav" aria-label="Main navigation">
+    <a href="#how">HOW IT WORKS</a>
+    <a class="hide-mobile" href="#play">TRY IT</a>
+    <a class="nav-cta" href="#community">JOIN THE WORLD ↗</a>
+  </nav>
+</header>
+
+<main>
+  <section class="wrap hero">
+    <div class="eyebrow">A tiny idea with infinite directions</div>
+    <h1>YOU BRING<br>THE <span class="outline">WORDS.</span></h1>
+    <div class="hero-bottom">
+      <p class="hero-copy">We find the story. Give us a few words. Get a sentence, a story, a poem — or a world you didn't expect. <strong>No blank-page panic.</strong></p>
+      <a class="button" href="#play">MAKE SOMETHING ↘</a>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">SENTENCES ✳ STORIES ✳ POEMS ✳ STRANGE WORLDS ✳ YOUR WORDS ✳ SENTENCES ✳ STORIES ✳ POEMS ✳ STRANGE WORLDS ✳ YOUR WORDS ✳ &nbsp;</div>
+  </div>
+
+  <section class="wrap section" id="play">
+    <div class="section-head">
+      <div><div class="kicker">01 / The word machine</div><h2>Start anywhere.</h2></div>
+      <p class="section-note">Five words. A thousand possibilities. Try the little demo — this prototype uses a few built-in patterns, ready for an AI engine later.</p>
+    </div>
+
+    <div class="lab">
+      <div>
+        <label class="lab-label" for="keywords">YOUR KEYWORDS</label>
+        <input id="keywords" class="word-input" type="text" value="rain, scientist, midnight, blue, memory" placeholder="rain, memory, tomorrow..." autocomplete="off">
+        <p class="helper">Separate your words with commas. Mix objects, feelings, places, ideas — anything.</p>
+
+        <div class="lab-label" style="margin-top:28px">MAKE ME A...</div>
+        <div class="controls" role="group" aria-label="Choose output type">
+          <button class="chip" data-mode="sentence" aria-pressed="true">Sentence</button>
+          <button class="chip" data-mode="story" aria-pressed="false">Story</button>
+          <button class="chip" data-mode="poem" aria-pressed="false">Poem</button>
+        </div>
+
+        <div id="genre-wrap" hidden>
+          <div class="lab-label" style="margin-top:24px">CHOOSE A WORLD</div>
+          <div class="controls" role="group" aria-label="Choose story genre">
+            <button class="chip" data-genre="Science fiction" aria-pressed="true">Sci-fi</button>
+            <button class="chip" data-genre="Mystery" aria-pressed="false">Mystery</button>
+            <button class="chip" data-genre="Fantasy" aria-pressed="false">Fantasy</button>
+            <button class="chip" data-genre="Romance" aria-pressed="false">Romance</button>
+            <button class="chip" data-genre="Horror" aria-pressed="false">Horror</button>
+          </div>
+        </div>
+        <div class="controls">
+          <button class="button" id="generate">MAKE IT EXIST ↗</button>
+        </div>
+        <p class="status" id="status" aria-live="polite"></p>
+      </div>
+
+      <div class="output" aria-live="polite">
+        <div class="output-top"><span id="output-label">YOUR SENTENCE</span><span>KW_001</span></div>
+        <p class="output-text" id="output-text">At midnight, a scientist watched the blue rain fall and wondered whether memory could survive the end of the universe.</p>
+        <div class="output-bottom">
+          <button class="chip" id="copy">COPY ↗</button>
+          <button class="chip" id="remix">REMIX ↻</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="how">
+    <div class="section-head">
+      <div><div class="kicker">02 / The idea</div><h2>Words in.<br>Worlds out.</h2></div>
+      <p class="section-note">You don't need to be a writer. You just need a few words and a little curiosity.</p>
+    </div>
+    <div class="steps">
+      <article class="step"><div class="step-no">01 — INPUT</div><h3>Drop your words.</h3><p>Anything goes. Rain, gravity, an old friend, a strange planet. Your ingredients set the whole thing in motion.</p></article>
+      <article class="step"><div class="step-no">02 — CHOOSE</div><h3>Pick a direction.</h3><p>Turn the same words into sci-fi, mystery, romance, fantasy, a poem, or one sharp sentence.</p></article>
+      <article class="step"><div class="step-no">03 — DISCOVER</div><h3>See what happens.</h3><p>Read it, remix it, share it. The same words can lead somewhere completely different every time.</p></article>
+    </div>
+    <div class="genre-line" aria-label="Creative genres">
+      <span class="genre">SCIENCE FICTION</span><span class="genre">MYSTERY</span><span class="genre">FANTASY</span><span class="genre">ROMANCE</span><span class="genre">HORROR</span><span class="genre">PHILOSOPHY</span><span class="genre">ABSURD</span><span class="genre">SURPRISE ME</span>
+    </div>
+  </section>
+
+  <section class="wrap section" id="community">
+    <div class="community">
+      <div>
+        <div class="kicker">03 / The global experiment</div>
+        <h2>A few words can start a whole world.</h2>
+        <p>We're building KEYWORDS in the open. Bring your strange combinations, share what you make, suggest new directions, and help shape what this becomes.</p>
+      </div>
+      <!-- Replace the # below with your real Discord invite URL before launch. -->
+      <a class="button" id="discord-link" href="#" target="_blank" rel="noopener noreferrer">FIND US ON DISCORD ↗</a>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p>KEYWORDS<span style="color:var(--red)">.</span> YOU BRING THE WORDS. WE FIND THE STORY.</p>
+  <p>MAKE IT EXIST FIRST. © <span id="year"></span></p>
+</footer>
+
+<script>
+(() => {
+  const input = document.getElementById('keywords');
+  const output = document.getElementById('output-text');
+  const outputLabel = document.getElementById('output-label');
+  const genreWrap = document.getElementById('genre-wrap');
+  const status = document.getElementById('status');
+  let mode = 'sentence';
+  let genre = 'Science fiction';
+  let remixCount = 0;
+
+  const templates = {
+    sentence: [
+      w => `At midnight, a scientist watched the blue rain fall and wondered whether memory could survive the end of the universe.`,
+      w => `Somewhere between ${w[0] || 'the beginning'} and ${w[1] || 'the unknown'}, a new memory was waiting to happen.`,
+      w => `When ${w[0] || 'the rain'} met ${w[1] || 'the night'}, even the impossible began to feel real.`
+    ],
+    story: {
+      'Science fiction': w => `At midnight, the scientist detected an impossible signal hidden inside ${w[0] || 'the rain'}. Every pulse carried a fragment of ${w[1] || 'a forgotten memory'}. The lab lights turned ${w[2] || 'blue'}, and the machine began playing a memory the scientist had never lived. Then the receiver printed a final message: “We remember you.” Outside, the sky answered.`,
+      'Mystery': w => `At midnight, the scientist found ${w[0] || 'a strange clue'} beside the locked laboratory door. The only witness remembered ${w[1] || 'a flash of blue'}, but every clock in the building had stopped. A trail led through the rain to a notebook filled with the scientist's own handwriting — dated tomorrow. On its last page was one sentence: “Do not trust the memory.”`,
+      'Fantasy': w => `At midnight, the scientist followed ${w[0] || 'a blue light'} into a forest where rain fell upward. An ancient keeper offered a memory in exchange for a name. The scientist agreed, and the trees opened like doors. Beyond them waited a kingdom built from forgotten dreams — and a throne that already knew who had come.`,
+      'Romance': w => `At midnight, the scientist waited in the rain, rehearsing words that had lived in memory for years. A blue umbrella appeared at the corner, held by the one person who had always asked too many questions. “Still studying the universe?” they asked. “Only the part I can't explain,” the scientist replied. For once, neither tried to find a formula for what happened next.`,
+      'Horror': w => `At midnight, the scientist heard rain tapping from inside the sealed lab. The monitors glowed blue, though the power was off. A memory appeared on the screen: the scientist asleep at the desk, filmed from behind. Then another image loaded — the same room, one minute in the future. In it, something stood directly behind the scientist. The tapping stopped. A hand touched their shoulder.`
+    },
+    poem: [
+      w => `Blue rain at midnight,\na scientist counts the drops —\nmemories wake up.`,
+      w => `The rain keeps secrets\nmidnight turns the world blue\nmemory blooms.`,
+      w => `A scientist asks\nwhat the night remembers\nrain answers in blue.`
+    ]
+  };
+
+  function words() {
+    return input.value.split(',').map(x => x.trim()).filter(Boolean).slice(0, 20);
+  }
+  function make() {
+    const w = words();
+    if (!w.length) {
+      status.textContent = 'Give us at least one word to begin.';
+      input.focus();
+      return;
+    }
+    status.textContent = '';
+    let result;
+    if (mode === 'sentence') {
+      result = templates.sentence[remixCount % templates.sentence.length](w);
+      outputLabel.textContent = 'YOUR SENTENCE';
+    } else if (mode === 'story') {
+      result = templates.story[genre](w);
+      outputLabel.textContent = `${genre.toUpperCase()} STORY`;
+    } else {
+      result = templates.poem[remixCount % templates.poem.length](w);
+      outputLabel.textContent = 'YOUR POEM';
+    }
+    output.textContent = result;
+  }
+
+  document.querySelectorAll('[data-mode]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      mode = btn.dataset.mode;
+      document.querySelectorAll('[data-mode]').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+      genreWrap.hidden = mode !== 'story';
+      make();
+    });
+  });
+  document.querySelectorAll('[data-genre]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      genre = btn.dataset.genre;
+      document.querySelectorAll('[data-genre]').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+      make();
+    });
+  });
+  document.getElementById('generate').addEventListener('click', () => { remixCount = 0; make(); });
+  document.getElementById('remix').addEventListener('click', () => { remixCount++; make(); });
+  document.getElementById('copy').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(output.textContent);
+      status.textContent = 'Copied. Take your words into the world.';
+    } catch {
+      const range = document.createRange();
+      range.selectNodeContents(output);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      status.textContent = 'Select and copy the text.';
+    }
+  });
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') make(); });
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Add your actual invite URL here before publishing.
+  const discordInvite = '';
+  const discordLink = document.getElementById('discord-link');
+  if (discordInvite) {
+    discordLink.href = discordInvite;
+  } else {
+    discordLink.addEventListener('click', e => {
+      e.preventDefault();
+      status.textContent = 'Add your Discord invite URL in the HTML before launch.';
+      document.getElementById('play').scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+})();
+</script>
+</body>
+</html>
