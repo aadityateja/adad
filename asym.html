@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asymmetry, A Cloud School | Learn what nobody knows yet.</title>
+<meta name="description" content="A school without walls for young people who want to work on what nobody knows yet. Live online studios, real scientists, ages 10–17. By Naxxatra.">
+<meta property="og:title" content="Asymmetry, A Cloud School">
+<meta property="og:description" content="Learn what nobody knows yet.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#000; --chalk:#fff; --haze:#e9e6f2; --ion:#7b8cff; --peach:#ffb089; --mint:#9df2d2;
+  --d:'Syne',system-ui,sans-serif; --b:'Instrument Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--chalk);font:400 1.08rem/1.6 var(--b);overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ion);outline-offset:3px}
+h1,h2,h3{font-family:var(--d);line-height:1;letter-spacing:-.02em}
+h2{font-size:clamp(2.2rem,6vw,4.6rem);font-weight:800}
+p{max-width:46ch}
+.wrap{padding:0 clamp(1.2rem,5vw,4rem)}
+.btn{display:inline-block;font:600 1rem var(--b);padding:.95em 1.6em;border-radius:60% 40% 55% 45%/50% 60% 40% 50%;background:var(--chalk);color:var(--void);text-decoration:none;border:0;cursor:pointer;transition:border-radius .5s,transform .3s}
+.btn:hover{border-radius:40% 60% 45% 55%/60% 40% 60% 40%;transform:rotate(-2deg) scale(1.04)}
+.btn.dark{background:var(--void);color:var(--chalk)}
+.btn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 2px currentColor}
+
+/* nav: lopsided on purpose */
+nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:1rem clamp(1.2rem,5vw,4rem);mix-blend-mode:difference;color:#fff}
+nav b{font:700 1.1rem var(--d)}
+nav .links{display:flex;gap:1.6rem;font-size:.95rem}
+nav .links a{text-decoration:none}
+nav .links a:hover{text-decoration:underline}
+@media(max-width:700px){nav .links a:not(.keep){display:none}}
+
+/* HERO */
+.hero{position:relative;min-height:100svh;padding-top:6rem;display:grid;grid-template-columns:1fr 1.7fr;align-items:center;overflow:hidden}
+.glow{position:absolute;width:40vmax;height:40vmax;border-radius:50%;background:radial-gradient(circle,rgba(123,140,255,.28),transparent 65%);left:0;top:0;pointer-events:none;transform:translate(var(--x,60vw),var(--y,20vh)) translate(-50%,-50%)}
+.small{position:relative;z-index:2;background:var(--chalk);color:var(--void);border-radius:58% 42% 50% 50%/55% 45% 55% 45%;width:min(26vw,300px);aspect-ratio:1.15;margin-left:clamp(1rem,6vw,5rem);display:grid;place-items:center;text-align:center;padding:2rem;font:700 clamp(.9rem,1.5vw,1.2rem)/1.25 var(--d);animation:bob 9s ease-in-out infinite;transform-origin:center}
+.big{position:relative;background:var(--chalk);color:var(--void);margin-left:-4rem;padding:clamp(3rem,6vw,6rem) clamp(2rem,6vw,6rem) clamp(3rem,6vw,6rem) clamp(5rem,9vw,9rem);border-radius:40% 60% 45% 55%/38% 62% 38% 62%;animation:morph 14s ease-in-out infinite;min-height:62vh;display:flex;flex-direction:column;justify-content:center;gap:1.6rem}
+.big h1{font-size:clamp(2.6rem,7.4vw,6.8rem);font-weight:800}
+.big h1 span{display:block}
+.big h1 span:nth-child(2){margin-left:1.2em}
+.big h1 span:nth-child(3){margin-left:.3em;font-style:normal;color:var(--ion);-webkit-text-stroke:0}
+.big p{font-size:1.15rem}
+.big .row{display:flex;gap:.8rem;flex-wrap:wrap}
+@keyframes morph{50%{border-radius:55% 45% 38% 62%/60% 40% 60% 40%}}
+@keyframes bob{50%{transform:translateY(-14px) rotate(-3deg)}}
+.glitch{position:absolute;right:clamp(1rem,4vw,3rem);bottom:1.2rem;z-index:3;max-width:24ch;font:500 .95rem/1.35 var(--b);text-align:right;color:var(--haze)}
+.glitch em{font-style:normal;display:inline-block;animation:flick 6s steps(1) infinite}
+@keyframes flick{0%,92%,100%{transform:none;text-shadow:none}93%{transform:translate(-3px,1px);text-shadow:3px 0 var(--peach),-3px 0 var(--ion)}95%{transform:translate(3px,-1px);text-shadow:-3px 0 var(--peach),3px 0 var(--ion)}97%{transform:none}}
+@media(max-width:860px){
+  .hero{grid-template-columns:1fr;padding-top:5rem}
+  .small{width:62vw;margin:0 0 -3rem 1rem}
+  .big{margin:0 -1rem 0 -2rem;padding:4.5rem 2.2rem 4rem 3.4rem}
+  .glitch{position:relative;right:auto;bottom:auto;text-align:left;padding:1.5rem 1.2rem}
+}
+
+/* tilted ticker */
+.ticker{transform:rotate(-2.5deg) scale(1.05);background:var(--ion);color:var(--void);overflow:hidden;white-space:nowrap;padding:.9rem 0;margin:3rem 0 1rem;font:700 1.3rem var(--d)}
+.ticker div{display:inline-block;animation:slide 40s linear infinite}
+.ticker span{margin:0 1.6rem}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* SPARK (interactive) */
+.spark{padding:7rem 0 6rem;display:grid;grid-template-columns:5fr 7fr;gap:3rem;align-items:start}
+.spark .lead{position:sticky;top:6rem}
+.spark h2{margin-bottom:1rem}
+.q{font:700 clamp(1.4rem,3vw,2.2rem)/1.15 var(--d);margin-bottom:1.6rem;max-width:22ch}
+.opts{display:grid;gap:1rem}
+.opt{text-align:left;font:500 1.1rem/1.4 var(--b);color:var(--chalk);background:none;border:2px solid #444;padding:1.2rem 1.6rem;cursor:pointer;border-radius:32px 12px 32px 12px;transition:all .3s}
+.opt:nth-child(2){margin-left:2.5rem;border-radius:12px 32px 12px 32px}
+.opt:nth-child(3){margin-left:.8rem}
+.opt:hover{border-color:var(--ion);transform:translateX(6px)}
+.opt[aria-pressed=true]{background:var(--ion);color:var(--void);border-color:var(--ion)}
+.why{margin:1.6rem 0 0 1.2rem;display:none}
+.why.on{display:block}
+.why label{display:block;margin-bottom:.5rem;color:var(--haze)}
+.why input{width:100%;max-width:520px;background:transparent;border:0;border-bottom:2px solid var(--chalk);color:var(--chalk);font:500 1.1rem var(--b);padding:.6rem 0}
+.why input:focus{outline:none;border-color:var(--ion)}
+.done{margin-top:1.4rem;display:none}
+.done.on{display:block}
+.done h3{font-size:1.6rem;margin-bottom:.6rem}
+@media(max-width:860px){.spark{grid-template-columns:1fr}.spark .lead{position:static}}
+
+/* WHY ASYMMETRY (white section with a curved top) */
+.why-name{background:var(--chalk);color:var(--void);border-radius:12% 88% 0 0/6vw 3vw 0 0;padding:8rem 0 7rem;position:relative}
+.scale{display:flex;align-items:flex-end;gap:1.5rem;margin:3rem 0 0 8vw}
+.scale i{display:block;border-radius:50%;background:var(--void)}
+.scale i:nth-child(1){width:min(52vw,520px);height:min(52vw,520px)}
+.scale i:nth-child(2){width:min(7vw,60px);height:min(7vw,60px);background:var(--ion);animation:bob 5s ease-in-out infinite}
+.scale small{font:500 .95rem var(--b);max-width:16ch;align-self:center}
+.why-name .cols{display:grid;grid-template-columns:7fr 4fr;gap:3rem;align-items:end}
+.why-name h2{max-width:11ch}
+.why-name p{font-size:1.25rem}
+.why-name p+p{margin-top:1rem}
+@media(max-width:860px){.why-name .cols{grid-template-columns:1fr}.scale{margin-left:0}}
+
+/* WORMHOLES: scattered */
+.holes{padding:7rem 0 5rem;position:relative}
+.holes h2{max-width:12ch}
+.holes .intro{margin:1.2rem 0 3rem}
+.field{display:flex;flex-wrap:wrap;gap:1.2rem 1rem;align-items:center}
+.hole{position:relative;cursor:default;padding:1.3rem 2rem;background:#111;border:1.5px solid #333;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;transition:all .5s;max-width:100%}
+.hole b{font:700 clamp(1.2rem,2.4vw,1.9rem) var(--d)}
+.hole span{display:block;max-height:0;overflow:hidden;opacity:0;font-size:.98rem;line-height:1.4;transition:all .5s}
+.hole:hover,.hole:focus-visible,.hole:focus-within{border-radius:30px;background:var(--c);color:var(--void);border-color:var(--c)}
+.hole:hover span,.hole:focus-visible span,.hole:focus-within span{max-height:9em;opacity:1;margin-top:.5rem;width:24ch}
+.hole:nth-child(1){--c:var(--ion);margin-left:3vw}
+.hole:nth-child(2){--c:var(--mint);margin-left:14vw}
+.hole:nth-child(3){--c:var(--peach)}
+.hole:nth-child(4){--c:var(--haze);margin-left:8vw}
+.hole:nth-child(5){--c:var(--mint);margin-left:1vw}
+.hole:nth-child(6){--c:var(--peach);margin-left:18vw}
+.hole:nth-child(7){--c:var(--ion)}
+.hole:nth-child(8){--c:var(--haze);margin-left:6vw}
+.lens{margin-top:3.5rem;margin-left:auto;max-width:34ch;font:700 1.5rem/1.2 var(--d);text-align:right}
+@media(max-width:700px){.hole{margin-left:0!important}.hole span{max-height:9em;opacity:1;margin-top:.4rem}}
+
+/* JOURNEY: a staircase */
+.journey{background:var(--haze);color:var(--void);padding:7rem 0;border-radius:0 0 40% 4%/0 0 8vw 2vw}
+.journey h2{max-width:13ch;margin-bottom:3.5rem}
+.steps{list-style:none;display:grid;grid-template-columns:repeat(8,1fr);gap:.6rem;align-items:start;counter-reset:s}
+.steps li{counter-increment:s;background:var(--chalk);border-radius:28px 8px 28px 8px;padding:1.1rem 1rem;font-size:.95rem;line-height:1.35;min-height:8rem}
+.steps li::before{content:counter(s);display:block;font:800 1.8rem var(--d);margin-bottom:.4rem;color:var(--ion)}
+.steps li b{display:block;font:700 1.05rem var(--d);margin-bottom:.2rem}
+.steps li:nth-child(1){margin-top:0}.steps li:nth-child(2){margin-top:2rem}.steps li:nth-child(3){margin-top:4rem}.steps li:nth-child(4){margin-top:6rem}
+.steps li:nth-child(5){margin-top:8rem}.steps li:nth-child(6){margin-top:10rem}.steps li:nth-child(7){margin-top:12rem}
+.steps li:nth-child(8){margin-top:14rem;background:var(--void);color:var(--chalk)}
+.steps{padding-bottom:0}
+.note{margin-top:3rem;font-size:1.15rem;max-width:40ch}
+@media(max-width:1000px){.steps{grid-template-columns:1fr 1fr}.steps li{margin-top:0!important}.steps li:nth-child(even){margin-top:1.6rem!important}}
+@media(max-width:520px){.steps{grid-template-columns:1fr}.steps li:nth-child(even){margin-top:0!important;margin-left:1.5rem}}
+
+/* WHO */
+.who{padding:8rem 0 4rem}
+.who h2{max-width:14ch;margin-bottom:3rem}
+.cards{display:grid;grid-template-columns:repeat(12,1fr);gap:1.2rem}
+.card{padding:2rem 2rem 2.4rem;background:#0f0f14;border:1.5px solid #2c2c36}
+.card h3{font-size:1.6rem;margin-bottom:.7rem}
+.card p{color:#cfcfda;font-size:1rem}
+.card:nth-child(1){grid-column:1/8;border-radius:80px 20px 80px 20px}
+.card:nth-child(2){grid-column:8/13;margin-top:4rem;border-radius:20px 80px 20px 80px}
+.card:nth-child(3){grid-column:2/7;border-radius:20px 80px 20px 80px}
+.card:nth-child(4){grid-column:7/13;margin-top:-2rem;border-radius:80px 20px 80px 20px;background:var(--ion);color:var(--void);border-color:var(--ion)}
+.card:nth-child(4) p{color:#10143a}
+@media(max-width:800px){.card{grid-column:1/-1!important;margin-top:0!important}}
+
+/* RESIDENCIES */
+.res{padding:5rem 0 6rem}
+.res h2{max-width:14ch;margin-bottom:2.5rem}
+.rail{display:flex;gap:1.2rem;overflow-x:auto;padding:1rem clamp(1.2rem,5vw,4rem) 2rem;scroll-snap-type:x mandatory;scrollbar-width:thin}
+.rail article{flex:0 0 min(78vw,300px);scroll-snap-align:start;padding:1.8rem;border-radius:44% 56% 40% 60%/30% 30% 70% 70%;background:var(--c);color:var(--void);min-height:260px;display:flex;flex-direction:column;justify-content:flex-end}
+.rail article:nth-child(even){margin-top:3rem}
+.rail article:nth-child(3n+1){--c:var(--peach)}
+.rail article:nth-child(3n+2){--c:var(--mint)}
+.rail article:nth-child(3n){--c:var(--ion)}
+.rail h3{font-size:1.4rem;margin-bottom:.3rem}
+.rail p{font-size:.95rem;line-height:1.4}
+
+/* CLOSE */
+.close{background:var(--chalk);color:var(--void);border-radius:50% 50% 0 0/14vw 6vw 0 0;padding:9rem 0 4rem;text-align:left}
+.close .proof{font:700 clamp(1rem,2vw,1.3rem)/1.3 var(--d);max-width:30ch;margin-left:auto;text-align:right}
+.close h2{font-size:clamp(2.4rem,7vw,6rem);max-width:15ch;margin:3rem 0 1.4rem}
+.close p.sub{font-size:1.2rem;margin-bottom:2rem}
+.join{display:flex;gap:.8rem;flex-wrap:wrap}
+.join input{flex:1 1 240px;max-width:340px;padding:.95em 1.2em;border-radius:40px 14px 40px 14px;border:2px solid var(--void);font:500 1rem var(--b);background:transparent}
+.fine{margin-top:.8rem;font-size:.9rem;color:#444}
+footer{margin-top:6rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.95rem}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<nav>
+  <b>Asymmetry</b>
+  <div class="links"><a href="#spark">Try one</a><a href="#wormholes">Wormholes</a><a href="#journey">How it works</a><a class="keep" href="#join">Begin</a></div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="small">a school without walls</div>
+  <div class="big">
+    <h1><span>Learn</span><span>what nobody</span><span>knows yet.</span></h1>
+    <p>Asymmetry, A Cloud School is where 10–17 year olds work on the biggest open questions facing humanity. Live online. Real scientists. No building.</p>
+    <div class="row">
+      <a class="btn dark" href="#spark">Pick a side. Two minutes.</a>
+      <a class="btn ghost" href="#journey">How it works</a>
+    </div>
+  </div>
+  <p class="glitch" aria-hidden="true"><em>The colour red does not exist outside your head.</em></p>
+</header>
+
+<div class="ticker" aria-hidden="true"><div>
+  <span>What is consciousness?</span><span>Who decides when water runs out?</span><span>What lives in the deep universe?</span><span>What will intelligence become?</span><span>Can humans and nature both win?</span><span>Why do we feel anything at all?</span>
+  <span>What is consciousness?</span><span>Who decides when water runs out?</span><span>What lives in the deep universe?</span><span>What will intelligence become?</span><span>Can humans and nature both win?</span><span>Why do we feel anything at all?</span>
+</div></div>
+
+<section class="spark wrap" id="spark">
+  <div class="lead">
+    <h2>Try thinking like this.</h2>
+    <p>Every child starts with a choice that has no obvious right answer. Here is one. Pick a side.</p>
+  </div>
+  <div>
+    <p class="q">Your village has water for 100 days and needs it for 150. What do you do?</p>
+    <div class="opts" role="group" aria-label="Choose one">
+      <button class="opt" aria-pressed="false">Ration it equally between everyone.</button>
+      <button class="opt" aria-pressed="false">Give farms priority, because food comes first.</button>
+      <button class="opt" aria-pressed="false">Spend money to bring water from outside.</button>
+    </div>
+    <div class="why" id="why">
+      <label for="reason">One sentence: why?</label>
+      <input id="reason" type="text" placeholder="Because…" autocomplete="off">
+      <div style="margin-top:1rem"><button class="btn" id="send">Send my reply</button></div>
+    </div>
+    <div class="done" id="done" aria-live="polite">
+      <h3>That was a Spark.</h3>
+      <p>Nobody can say you are wrong. At Asymmetry, you then argue it with a Thinking Tool, say what could prove you wrong, and test it in your own street. Scored on curiosity, reasoning, honesty and agency. Never on polish or accent.</p>
+      <p style="margin-top:1rem"><a class="btn" href="#join">Watch a Wormhole and reply</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="why-name" id="why-name">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h2>The universe is lopsided.</h2>
+        <div class="scale" aria-hidden="true"><i></i><i></i><small>a tiny push, a big result</small></div>
+      </div>
+      <div>
+        <p>At the very beginning, there was slightly more matter than antimatter. That tiny imbalance became every star, planet and person.</p>
+        <p>Change works the same way. One curious person, one well-aimed action, an outsized result.</p>
+        <p><b>We help children become that small push.</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="holes wrap" id="wormholes">
+  <h2>Eight ways into the unknown.</h2>
+  <p class="intro">We call them Wormholes. Each is a seven-minute episode: a puzzle you cannot ignore, a real scientist at the edge of what is known, and a mission you can actually do. Hover or tap one.</p>
+  <div class="field">
+    <div class="hole" tabindex="0"><b>The Human Mind</b><span>What is consciousness, and why do we feel anything at all?</span></div>
+    <div class="hole" tabindex="0"><b>The Earth</b><span>How do forests, oceans, air, water and food survive ten billion of us?</span></div>
+    <div class="hole" tabindex="0"><b>Technology</b><span>What does mindful technology look like, and what are the next breakthrough ideas?</span></div>
+    <div class="hole" tabindex="0"><b>Space</b><span>What lives in the deep universe, and what does leaving Earth mean for humanity?</span></div>
+    <div class="hole" tabindex="0"><b>Evolved Naturalism</b><span>Can humans and nature co-evolve so both win?</span></div>
+    <div class="hole" tabindex="0"><b>The Body and Healing</b><span>What is the secret to human health, and can science heal rather than destroy?</span></div>
+    <div class="hole" tabindex="0"><b>Art and Expression</b><span>What is the place of art, expression and design in this new world?</span></div>
+    <div class="hole" tabindex="0"><b>Intelligence</b><span>What will intelligence become, and what does the world need from AI?</span></div>
+  </div>
+  <p class="lens">One question runs through all eight: how do we know what is true?</p>
+</section>
+
+<section class="journey" id="journey">
+  <div class="wrap">
+    <h2>From one reply to original research.</h2>
+    <ol class="steps">
+      <li><b>Watch</b>A Wormhole. Free and public.</li>
+      <li><b>Spark</b>Pick a side in two minutes.</li>
+      <li><b>Reply</b>Your Reply Card is your application.</li>
+      <li><b>Discovery</b>A live session with a mentor.</li>
+      <li><b>Choose</b>Studio, Orbit, Launch or Fellow.</li>
+      <li><b>Build</b>Live studios and Residencies.</li>
+      <li><b>Launch</b>Test or build your own idea.</li>
+      <li><b>Frontiers</b>Present original research.</li>
+    </ol>
+    <p class="note">Reply by video, voice note or a photo of your notebook. English or Hindi. After two weeks, the episode’s scientist answers three replies on video. Yours might be one.</p>
+  </div>
+</section>
+
+<section class="who wrap">
+  <h2>For any curious child.</h2>
+  <div class="cards">
+    <div class="card"><h3>Children in city schools</h3><p>Depth and real projects your timetable has no room for.</p></div>
+    <div class="card"><h3>Children in small towns and villages</h3><p>Scientists, peers and Residencies that have never reached you. Low-bandwidth options and need-based places.</p></div>
+    <div class="card"><h3>Homeschooled children</h3><p>A community, structure and a portfolio to build your week around.</p></div>
+    <div class="card"><h3>Schools and parents</h3><p>Wormholes as ready lessons, a class thinking report, and a clear view of what your child made and how they think.</p></div>
+  </div>
+</section>
+
+<section class="res">
+  <div class="wrap"><h2>Then we meet in real life.</h2></div>
+  <div class="rail" tabindex="0" aria-label="Innovation Residencies">
+    <article><h3>Frontier Camp</h3><p>Bengaluru. Labs, observatory nights, build sprints with engineers.</p></article>
+    <article><h3>Earth Lab</h3><p>A rural farm in Karnataka. Fieldwork and satellite data beside village children.</p></article>
+    <article><h3>Frontiers Summit</h3><p>Present, judge and pitch research.</p></article>
+    <article><h3>Dark Sky Expedition</h3><p>A high-altitude site such as Ladakh. Astronomy and field science.</p></article>
+    <article><h3>Diaspora Residency</h3><p>A US city, for children living abroad.</p></article>
+  </div>
+</section>
+
+<section class="close" id="join">
+  <div class="wrap">
+    <p class="proof">Founded by an astrophysicist. Built with 200+ scientists. Tested with 20,000 students.</p>
+    <h2>The future won’t be built by people who memorised the past.</h2>
+    <p class="sub">Come build it with us. Your child leaves with a question worth a lifetime, work that proves what they can do, and friends across the world to build with.</p>
+    <form class="join" onsubmit="event.preventDefault();this.querySelector('button').textContent='You are on the list';">
+      <input type="email" required placeholder="Your email" aria-label="Your email">
+      <button class="btn dark" type="submit">Get the first Wormhole</button>
+    </form>
+    <p class="fine">Starting in India, then South Asia, Africa and the diaspora.</p>
+    <footer><span><b>Asymmetry</b>, A Cloud School, by Naxxatra</span><span>Learn what nobody knows yet.</span></footer>
+  </div>
+</section>
+
+<script>
+// Glow follows the pointer in the hero
+const hero=document.querySelector('.hero'),glow=document.querySelector('.glow');
+hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect();glow.style.setProperty('--x',(e.clientX-r.left)+'px');glow.style.setProperty('--y',(e.clientY-r.top)+'px')});
+
+// Spark: pick a side, say why, send
+const opts=[...document.querySelectorAll('.opt')],why=document.getElementById('why'),done=document.getElementById('done');
+opts.forEach(o=>o.addEventListener('click',()=>{opts.forEach(x=>x.setAttribute('aria-pressed',x===o));why.classList.add('on');document.getElementById('reason').focus()}));
+document.getElementById('send').addEventListener('click',()=>{done.classList.add('on');why.classList.remove('on');done.scrollIntoView({behavior:'smooth',block:'center'})});
+</script>
+</body>
+</html>
