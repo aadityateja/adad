@@ -156,25 +156,57 @@ nav.scrolled {
 @media(max-width:860px){.why-name .cols{grid-template-columns:1fr}.scale{margin-left:0}}
 
 /* WORMHOLES: scattered */
-.holes{padding:7rem 0 5rem;position:relative}
-.holes h2{max-width:12ch}
-.holes .intro{margin:1.2rem 0 3rem}
-.field{display:flex;flex-wrap:wrap;gap:1.2rem 1rem;align-items:center}
-.hole{position:relative;cursor:default;padding:1.3rem 2rem;background:#111;border:1.5px solid #333;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;transition:all .5s;max-width:100%}
-.hole b{font:700 clamp(1.2rem,2.4vw,1.9rem) var(--d)}
-.hole span{display:block;max-height:0;overflow:hidden;opacity:0;font-size:.98rem;line-height:1.4;transition:all .5s}
-.hole:hover,.hole:focus-visible,.hole:focus-within{border-radius:30px;background:var(--c);color:var(--void);border-color:var(--c)}
-.hole:hover span,.hole:focus-visible span,.hole:focus-within span{max-height:9em;opacity:1;margin-top:.5rem;width:24ch}
-.hole:nth-child(1){--c:var(--ion);margin-left:3vw}
-.hole:nth-child(2){--c:var(--mint);margin-left:14vw}
-.hole:nth-child(3){--c:var(--peach)}
-.hole:nth-child(4){--c:var(--haze);margin-left:8vw}
-.hole:nth-child(5){--c:var(--mint);margin-left:1vw}
-.hole:nth-child(6){--c:var(--peach);margin-left:18vw}
-.hole:nth-child(7){--c:var(--ion)}
-.hole:nth-child(8){--c:var(--haze);margin-left:6vw}
-.lens{margin-top:3.5rem;margin-left:auto;max-width:34ch;font:700 1.5rem/1.2 var(--d);text-align:right}
-@media(max-width:700px){.hole{margin-left:0!important}.hole span{max-height:9em;opacity:1;margin-top:.4rem}}
+
+/* Wormholes: reliable expansion, same visual design */
+.hole {
+  position: relative;
+  cursor: default;
+  padding: 1.3rem 2rem;
+  background: #111;
+  border: 1.5px solid #333;
+  border-radius: 50% 50% 50% 50%/60% 60% 40% 40%;
+  transition: background .5s, color .5s, border-color .5s,
+              border-radius .5s;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.hole b {
+  display: block;
+  font: 700 clamp(1.2rem, 2.4vw, 1.9rem) var(--d);
+}
+
+.hole span {
+  display: block;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  font-size: .98rem;
+  line-height: 1.4;
+  overflow-wrap: break-word;
+  transition: max-height .5s ease, opacity .35s ease,
+              margin-top .5s ease;
+}
+
+.hole:hover,
+.hole:focus-visible,
+.hole:focus-within {
+  border-radius: 30px;
+  background: var(--c);
+  color: var(--void);
+  border-color: var(--c);
+  z-index: 2;
+}
+
+.hole:hover span,
+.hole:focus-visible span,
+.hole:focus-within span {
+  max-height: 20em;
+  opacity: 1;
+  margin-top: .5rem;
+  width: min(24ch, calc(100vw - 6rem));
+}
+
 
 /* JOURNEY: a staircase */
 .journey{background:var(--haze);color:var(--void);padding:7rem 0;border-radius:0 0 40% 4%/0 0 8vw 2vw}
