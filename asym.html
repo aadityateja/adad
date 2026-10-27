@@ -29,13 +29,68 @@ p{max-width:46ch}
 .btn.dark{background:var(--void);color:var(--chalk)}
 .btn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 2px currentColor}
 
-/* nav: lopsided on purpose */
-nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:1rem clamp(1.2rem,5vw,4rem);mix-blend-mode:difference;color:#fff}
-nav b{font:700 1.1rem var(--d)}
-nav .links{display:flex;gap:1.6rem;font-size:.95rem}
-nav .links a{text-decoration:none}
-nav .links a:hover{text-decoration:underline}
-@media(max-width:700px){nav .links a:not(.keep){display:none}}
+
+/* Navigation: clear at the top, soft glass while scrolling */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 1rem clamp(1.2rem, 5vw, 4rem);
+
+  color: #fff;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+
+  mix-blend-mode: difference;
+
+  transition:
+    background 0.35s ease,
+    backdrop-filter 0.35s ease,
+    border-color 0.35s ease;
+}
+
+nav b {
+  font: 700 1.1rem var(--d);
+}
+
+nav .links {
+  display: flex;
+  gap: 1.6rem;
+  font-size: .95rem;
+}
+
+nav .links a {
+  text-decoration: none;
+}
+
+nav .links a:hover {
+  text-decoration: underline;
+}
+
+/* Activated after scrolling */
+nav.scrolled {
+  background: rgba(0, 0, 0, 0.58);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+
+  mix-blend-mode: normal;
+}
+
+@media(max-width:700px) {
+  nav .links a:not(.keep) {
+    display: none;
+  }
+}
+}}
 
 /* HERO */
 .hero{position:relative;min-height:100svh;padding-top:6rem;display:grid;grid-template-columns:1fr 1.7fr;align-items:center;overflow:hidden}
@@ -318,6 +373,16 @@ hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect();glo
 const opts=[...document.querySelectorAll('.opt')],why=document.getElementById('why'),done=document.getElementById('done');
 opts.forEach(o=>o.addEventListener('click',()=>{opts.forEach(x=>x.setAttribute('aria-pressed',x===o));why.classList.add('on');document.getElementById('reason').focus()}));
 document.getElementById('send').addEventListener('click',()=>{done.classList.add('on');why.classList.remove('on');done.scrollIntoView({behavior:'smooth',block:'center'})});
+  
+const nav = document.querySelector('nav');
+
+function updateNav() {
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+}
+
+window.addEventListener('scroll', updateNav, { passive: true });
+updateNav();
+
 </script>
 </body>
 </html>
